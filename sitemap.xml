@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://www.riedberg.se/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.riedberg.se/og-1200x630.jpg</image:loc>
+      <image:caption>Portrait of Sander Riedberg</image:caption>
+      <image:title>Sander Riedberg</image:title>
+    </image:image>
+  </url>
+</urlset>
