@@ -6,8 +6,9 @@ personliga hemsida. React + Vite + TypeScript + Tailwind.
 Konceptet heter **Vattenlinjen**: sajten är en ö i skärgården. Ovanför
 vattenytan en polerad personlig fasad; under vattenlinjen bor sajtens
 medvetande - en skriptad inre monolog, dess tillblivelsehistoria, dess
-egen källkod och allt den vet om besöket (vilket stannar i besökarens
-webbläsare; det finns ingen server, ingen tracking, inga API-anrop).
+egen källkod och allt den vet om besöket. Besöksminnet stannar i
+besökarens webbläsare; besök räknas anonymt och cookiefritt i
+self-hostad Umami på egen server - inga tredje parter någonstans.
 Spec och plan: [`docs/superpowers/`](./docs/superpowers/).
 
 ## Lokal utveckling

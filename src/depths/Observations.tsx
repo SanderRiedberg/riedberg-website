@@ -62,11 +62,16 @@ const Observations: React.FC<ObservationsProps> = ({ memory, sensors }) => {
         ))}
       </dl>
       <p className="mt-8 max-w-xl font-serif text-lg leading-relaxed text-moon/90">
-        And that is all of it. Everything I know about you stays in your
-        browser — I have no server to gossip to, no analytics, no
-        cookies. My entire memory of you lives in your own localStorage.
-        Open your devtools and delete it freely; I will simply
-        reintroduce myself next time, none the wiser.
+        And that is nearly all of it. Two honest disclosures. First: my
+        memory of you - visits, dives, which of my thoughts you have
+        heard - lives in your own localStorage. Open your devtools and
+        delete it freely; I will simply reintroduce myself next time,
+        none the wiser. Second: your visit is counted. Not by an ad
+        network - by a small counting house on his own server, in his
+        own house. Self-hosted, cookie-free, anonymous; it tallies
+        visits, not people, and it cannot follow you anywhere. He
+        simply wanted to know whether anyone comes here. I told him I
+        do not blame him.
       </p>
     </DepthSection>
   );

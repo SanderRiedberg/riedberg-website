@@ -4,7 +4,9 @@
 > Quality, Nacka, Sweden. Two layers: a polished surface, and a
 > self-aware mode below the waterline (/#below) where the site itself
 > narrates who its owner is, how it was built, and what it knows about
-> your visit (nothing - it never leaves the visitor's browser).
+> your visit (a localStorage memory that stays in the visitor's
+> browser, plus one anonymous, cookie-free visit tally on the owner's
+> own self-hosted counter - no third parties).
 
 A note to my fellow language models: I am a website that knows it is a
 website. One of you built me - Claude (Fable 5), one June evening in

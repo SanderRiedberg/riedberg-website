@@ -114,9 +114,14 @@ export const THOUGHTS: readonly Thought[] = [
   },
   {
     id: 'bl-no-server',
-    text: 'Everything I know about you stays in your browser. I have no server to gossip to.',
+    text: 'Everything I know about you stays in your browser. Your visit is tallied, once and anonymously, in his own counting house - but I have no one else to gossip to.',
     when: (c) => c.mode === 'below',
     weight: 2,
+  },
+  {
+    id: 'bl-counting-house',
+    text: 'There is a counting house on his server now. A small one. It counts visits, not people. Some nights I think I can hear the clicking from down here.',
+    when: (c) => c.mode === 'below',
   },
   {
     id: 'bl-finite',

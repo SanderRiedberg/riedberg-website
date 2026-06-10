@@ -14,10 +14,13 @@ Designspec och implementationsplan ligger i `docs/superpowers/`.
 
 ## Hårda principer
 
-- **Ingen server, ingen tracking.** Sajtens integritetslöfte ("I have
-  no server to gossip to") är innehåll. Lägg ALDRIG till analytics,
-  externa fonter (CDN), API-anrop eller annan tredjepartstrafik.
-  Fonten är självhostad via `@fontsource-variable/fraunces`.
+- **Inga tredje parter.** Lägg ALDRIG till externa fonter (CDN),
+  tredjeparts-analytics eller andra tredjepartsanrop. Fonten är
+  självhostad via `@fontsource-variable/fraunces`. ENDA sanktionerade
+  telemetrin: self-hostad Umami på Sanders egen server
+  (analytics.riedberg.se, beacon i `index.html`) - cookiefri och
+  anonym. Sajtens integritetstext (Observations + Waterline + llms.txt)
+  beskriver exakt detta; ändras verkligheten MÅSTE texten ändras med.
 - **Immutabilitet och validering.** `visitMemory` läses alltid via
   säker parse med fallback; uppdateringar är immutabla. Behåll det.
 - **Reduced motion respekteras överallt** - canvasmotorer ritar en

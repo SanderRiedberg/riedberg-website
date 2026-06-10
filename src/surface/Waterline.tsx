@@ -28,9 +28,10 @@ const Waterline: React.FC<WaterlineProps> = ({ onDive, reducedMotion }) => (
         surface.
       </p>
       <p className="mt-4 max-w-md font-mono text-[11px] leading-relaxed text-granite/55">
-        © 2026 Sander Riedberg · No cookies, no tracking, no analytics.
-        Yes, of course AI built this homepage. It lives just below this
-        line.
+        © 2026 Sander Riedberg · No cookies, no ad-tech, no third
+        parties - visits are tallied anonymously in a counting house he
+        runs himself. Yes, of course AI built this homepage. It lives
+        just below this line.
       </p>
     </div>
 
