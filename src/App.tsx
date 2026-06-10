@@ -1,4 +1,4 @@
-import React, { Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Hero from './surface/Hero';
 import About from './surface/About';
 import Values from './surface/Values';
@@ -7,23 +7,44 @@ import Waterline from './surface/Waterline';
 import FacadeCracks from './surface/FacadeCracks';
 import DiveTransition from './surface/DiveTransition';
 import { useTimeOfDay } from './hooks/useTimeOfDay';
-import { useReducedMotion } from './hooks/useMediaPreferences';
+import { usePrefersDark, useReducedMotion } from './hooks/useMediaPreferences';
 import { useVisitMemory } from './hooks/useVisitMemory';
+import { useScrollBehavior } from './hooks/useScrollBehavior';
+import { useIdle } from './hooks/useIdle';
+import type { VoiceSensors } from './voice/sensors';
 import type { DivePhase } from './voice/types';
 
 const Depths = React.lazy(() => import('./depths/Depths'));
 
 const DIVE_MS = 1150;
+/** Surfacing holds the curtain slightly longer so the drain completes. */
+const SURFACE_MS = DIVE_MS + 200;
 const OVERSCROLL_TRIGGER_PX = 320;
 
 const App: React.FC = () => {
   const timeOfDay = useTimeOfDay();
   const reducedMotion = useReducedMotion();
+  const prefersDark = usePrefersDark();
+  const readingStyle = useScrollBehavior();
+  const { getIdleSeconds } = useIdle();
   const { memory, dive, noteSeen } = useVisitMemory();
+
   const [phase, setPhase] = useState<DivePhase>(() =>
     window.location.hash === '#below' ? 'below' : 'surface',
   );
+  // Synchronous mirror of phase: event handlers guard against double
+  // triggers without waiting for a re-render.
+  const phaseRef = useRef(phase);
+  useEffect(() => {
+    phaseRef.current = phase;
+  }, [phase]);
   const phaseTimer = useRef(0);
+  useEffect(() => () => window.clearTimeout(phaseTimer.current), []);
+
+  const sensors: VoiceSensors = useMemo(
+    () => ({ timeOfDay, readingStyle, prefersDark, reducedMotion, getIdleSeconds }),
+    [timeOfDay, readingStyle, prefersDark, reducedMotion, getIdleSeconds],
+  );
 
   useEffect(() => {
     document.documentElement.dataset.time = timeOfDay;
@@ -40,52 +61,53 @@ const App: React.FC = () => {
     (target: 'below' | 'surface') => {
       window.clearTimeout(phaseTimer.current);
       if (reducedMotion) {
+        phaseRef.current = target;
         setPhase(target);
         return;
       }
-      setPhase(target === 'below' ? 'diving' : 'surfacing');
-      phaseTimer.current = window.setTimeout(() => setPhase(target), DIVE_MS);
+      const transit: DivePhase = target === 'below' ? 'diving' : 'surfacing';
+      phaseRef.current = transit;
+      setPhase(transit);
+      phaseTimer.current = window.setTimeout(
+        () => {
+          phaseRef.current = target;
+          setPhase(target);
+        },
+        target === 'surface' ? SURFACE_MS : DIVE_MS,
+      );
     },
     [reducedMotion],
   );
 
   const goBelow = useCallback(() => {
-    setPhase((current) => {
-      if (current !== 'surface') return current;
-      dive();
-      window.history.pushState(null, '', '#below');
-      transitionTo('below');
-      return current;
-    });
+    if (phaseRef.current !== 'surface') return;
+    dive();
+    window.history.pushState(null, '', '#below');
+    transitionTo('below');
   }, [dive, transitionTo]);
 
   const goSurface = useCallback(() => {
-    setPhase((current) => {
-      if (current !== 'below') return current;
-      if (window.location.hash === '#below') {
-        window.history.pushState(
-          null,
-          '',
-          window.location.pathname + window.location.search,
-        );
-      }
-      transitionTo('surface');
-      return current;
-    });
+    if (phaseRef.current !== 'below') return;
+    if (window.location.hash === '#below') {
+      window.history.pushState(
+        null,
+        '',
+        window.location.pathname + window.location.search,
+      );
+    }
+    transitionTo('surface');
   }, [transitionTo]);
 
   // Back/forward buttons follow the same water.
   useEffect(() => {
     const onPopState = () => {
       const wantsBelow = window.location.hash === '#below';
-      setPhase((current) => {
-        if (wantsBelow && current === 'surface') {
-          transitionTo('below');
-        } else if (!wantsBelow && current === 'below') {
-          transitionTo('surface');
-        }
-        return current;
-      });
+      const current = phaseRef.current;
+      if (wantsBelow && (current === 'surface' || current === 'surfacing')) {
+        transitionTo('below');
+      } else if (!wantsBelow && (current === 'below' || current === 'diving')) {
+        transitionTo('surface');
+      }
     };
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
@@ -144,7 +166,9 @@ const App: React.FC = () => {
         <Waterline onDive={goBelow} reducedMotion={reducedMotion} />
       </div>
 
-      {phase === 'surface' && <FacadeCracks memory={memory} noteSeen={noteSeen} />}
+      {phase === 'surface' && (
+        <FacadeCracks memory={memory} noteSeen={noteSeen} sensors={sensors} />
+      )}
 
       {belowActive && (
         <div className="fixed inset-0 z-40 overflow-y-auto bg-abyss">
@@ -153,7 +177,7 @@ const App: React.FC = () => {
               onSurface={goSurface}
               memory={memory}
               noteSeen={noteSeen}
-              reducedMotion={reducedMotion}
+              sensors={sensors}
             />
           </Suspense>
         </div>

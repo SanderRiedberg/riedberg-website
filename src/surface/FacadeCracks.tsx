@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import type { VisitMemory } from '../state/visitMemory';
+import type { VoiceSensors } from '../voice/sensors';
 import { THOUGHTS } from '../voice/thoughts';
 import { pickThought } from '../voice/engine';
 import { buildVoiceContext } from '../voice/context';
-import { useTimeOfDay } from '../hooks/useTimeOfDay';
-import { useScrollBehavior } from '../hooks/useScrollBehavior';
-import { useIdle } from '../hooks/useIdle';
-import { usePrefersDark, useReducedMotion } from '../hooks/useMediaPreferences';
 
 const FIRST_DELAY_MS = 20_000;
 const INTERVAL_MS = 75_000;
@@ -15,6 +12,7 @@ const SHOW_MS = 9_000;
 interface FacadeCracksProps {
   memory: VisitMemory;
   noteSeen: (ids: readonly string[]) => void;
+  sensors: VoiceSensors;
 }
 
 /**
@@ -23,42 +21,34 @@ interface FacadeCracksProps {
  * not a live region — sighted visitors may catch it, screen readers
  * are not interrupted by decoration.
  */
-const FacadeCracks: React.FC<FacadeCracksProps> = ({ memory, noteSeen }) => {
+const FacadeCracks: React.FC<FacadeCracksProps> = ({ memory, noteSeen, sensors }) => {
   const [text, setText] = useState('');
   const [visible, setVisible] = useState(false);
 
-  const timeOfDay = useTimeOfDay();
-  const readingStyle = useScrollBehavior();
-  const { getIdleSeconds } = useIdle();
-  const prefersDark = usePrefersDark();
-  const reducedMotion = useReducedMotion();
-
   // Latest values readable from inside long-lived timers.
-  const latest = useRef({ memory, timeOfDay, readingStyle, prefersDark, reducedMotion });
-  latest.current = { memory, timeOfDay, readingStyle, prefersDark, reducedMotion };
-  const noteSeenRef = useRef(noteSeen);
-  noteSeenRef.current = noteSeen;
+  const latest = useRef({ memory, sensors, noteSeen });
+  latest.current = { memory, sensors, noteSeen };
 
   useEffect(() => {
     let hideTimer = 0;
 
     const speak = () => {
-      const s = latest.current;
+      const { memory: m, sensors: s, noteSeen: note } = latest.current;
       const ctx = buildVoiceContext({
         hour: new Date().getHours(),
         weekday: new Date().getDay(),
-        visitCount: s.memory.visitCount,
-        divesCount: s.memory.divesCount,
+        visitCount: m.visitCount,
+        divesCount: m.divesCount,
         readingStyle: s.readingStyle,
-        idleSeconds: getIdleSeconds(),
+        idleSeconds: s.getIdleSeconds(),
         viewportWidth: window.innerWidth,
         prefersDark: s.prefersDark,
         reducedMotion: s.reducedMotion,
         mode: 'surface',
       });
-      const { thought } = pickThought(THOUGHTS, ctx, s.memory.thoughtsSeen, Math.random);
+      const { thought } = pickThought(THOUGHTS, ctx, m.thoughtsSeen, Math.random);
       if (!thought) return;
-      noteSeenRef.current([thought.id]);
+      note([thought.id]);
       setText(thought.text);
       setVisible(true);
       hideTimer = window.setTimeout(() => setVisible(false), SHOW_MS);
@@ -71,7 +61,7 @@ const FacadeCracks: React.FC<FacadeCracksProps> = ({ memory, noteSeen }) => {
       window.clearInterval(interval);
       window.clearTimeout(hideTimer);
     };
-  }, [getIdleSeconds]);
+  }, []);
 
   return (
     <div

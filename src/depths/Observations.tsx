@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import DepthSection from './DepthSection';
 import type { VisitMemory } from '../state/visitMemory';
-import type { ReadingStyle, TimeOfDay } from '../voice/types';
+import type { VoiceSensors } from '../voice/sensors';
+import type { ReadingStyle } from '../voice/types';
 
 interface ObservationsProps {
   memory: VisitMemory;
-  timeOfDay: TimeOfDay;
-  readingStyle: ReadingStyle;
-  prefersDark: boolean;
-  reducedMotion: boolean;
+  sensors: VoiceSensors;
 }
 
 const READING_LABEL: Record<ReadingStyle, string> = {
@@ -25,13 +23,8 @@ const formatFirstSeen = (iso: string): string => {
 };
 
 /** Everything the site knows about this visit, disclosed in full. */
-const Observations: React.FC<ObservationsProps> = ({
-  memory,
-  timeOfDay,
-  readingStyle,
-  prefersDark,
-  reducedMotion,
-}) => {
+const Observations: React.FC<ObservationsProps> = ({ memory, sensors }) => {
+  const { timeOfDay, readingStyle, prefersDark, reducedMotion } = sensors;
   const [secondsHere, setSecondsHere] = useState(0);
   useEffect(() => {
     const t = window.setInterval(() => setSecondsHere((s) => s + 1), 1000);

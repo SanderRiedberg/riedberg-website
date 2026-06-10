@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import type { VisitMemory } from '../state/visitMemory';
+import type { VoiceSensors } from '../voice/sensors';
 import { THOUGHTS } from '../voice/thoughts';
 import { pickThought } from '../voice/engine';
 import { buildVoiceContext } from '../voice/context';
-import { useTimeOfDay } from '../hooks/useTimeOfDay';
-import { useScrollBehavior } from '../hooks/useScrollBehavior';
-import { useIdle } from '../hooks/useIdle';
-import { usePrefersDark, useReducedMotion } from '../hooks/useMediaPreferences';
 
 const THINK_INTERVAL_MS = 8_000;
 const TYPE_SPEED_MS = 28;
@@ -21,6 +18,7 @@ interface Entry {
 interface MonologueProps {
   memory: VisitMemory;
   noteSeen: (ids: readonly string[]) => void;
+  sensors: VoiceSensors;
 }
 
 const timestamp = () =>
@@ -30,39 +28,31 @@ const timestamp = () =>
  * The live thought stream. A new thought surfaces every few seconds,
  * typed out character by character (instantly under reduced motion).
  */
-const Monologue: React.FC<MonologueProps> = ({ memory, noteSeen }) => {
+const Monologue: React.FC<MonologueProps> = ({ memory, noteSeen, sensors }) => {
   const [entries, setEntries] = useState<readonly Entry[]>([]);
   const [typedChars, setTypedChars] = useState(0);
 
-  const timeOfDay = useTimeOfDay();
-  const readingStyle = useScrollBehavior();
-  const { getIdleSeconds } = useIdle();
-  const prefersDark = usePrefersDark();
-  const reducedMotion = useReducedMotion();
-
-  const latest = useRef({ memory, timeOfDay, readingStyle, prefersDark, reducedMotion });
-  latest.current = { memory, timeOfDay, readingStyle, prefersDark, reducedMotion };
-  const noteSeenRef = useRef(noteSeen);
-  noteSeenRef.current = noteSeen;
+  const latest = useRef({ memory, sensors, noteSeen });
+  latest.current = { memory, sensors, noteSeen };
 
   useEffect(() => {
     const think = () => {
-      const s = latest.current;
+      const { memory: m, sensors: s, noteSeen: note } = latest.current;
       const ctx = buildVoiceContext({
         hour: new Date().getHours(),
         weekday: new Date().getDay(),
-        visitCount: s.memory.visitCount,
-        divesCount: s.memory.divesCount,
+        visitCount: m.visitCount,
+        divesCount: m.divesCount,
         readingStyle: s.readingStyle,
-        idleSeconds: getIdleSeconds(),
+        idleSeconds: s.getIdleSeconds(),
         viewportWidth: window.innerWidth,
         prefersDark: s.prefersDark,
         reducedMotion: s.reducedMotion,
         mode: 'below',
       });
-      const { thought } = pickThought(THOUGHTS, ctx, s.memory.thoughtsSeen, Math.random);
+      const { thought } = pickThought(THOUGHTS, ctx, m.thoughtsSeen, Math.random);
       if (!thought) return;
-      noteSeenRef.current([thought.id]);
+      note([thought.id]);
       setEntries((prev) =>
         [...prev, { id: `${thought.id}-${prev.length}`, stamp: timestamp(), text: thought.text }].slice(
           -KEEP_THOUGHTS,
@@ -74,11 +64,11 @@ const Monologue: React.FC<MonologueProps> = ({ memory, noteSeen }) => {
     think();
     const interval = window.setInterval(think, THINK_INTERVAL_MS);
     return () => window.clearInterval(interval);
-  }, [getIdleSeconds]);
+  }, []);
 
   const newest = entries[entries.length - 1];
   const newestDone =
-    !newest || latest.current.reducedMotion || typedChars >= newest.text.length;
+    !newest || latest.current.sensors.reducedMotion || typedChars >= newest.text.length;
 
   useEffect(() => {
     if (newestDone) return;

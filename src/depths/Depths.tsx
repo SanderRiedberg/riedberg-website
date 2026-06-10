@@ -3,32 +3,27 @@ import { ArrowUp } from 'lucide-react';
 import SeaCanvas from '../sea/SeaCanvas';
 import { createDepthsBackdrop } from '../sea/depthsBackdrop';
 import type { VisitMemory } from '../state/visitMemory';
+import type { VoiceSensors } from '../voice/sensors';
 import DepthSection from './DepthSection';
 import Monologue from './Monologue';
 import Portrait from './Portrait';
 import Launch from './Launch';
 import SourceReader from './SourceReader';
 import Observations from './Observations';
-import { useTimeOfDay } from '../hooks/useTimeOfDay';
-import { useScrollBehavior } from '../hooks/useScrollBehavior';
-import { usePrefersDark } from '../hooks/useMediaPreferences';
 
 interface DepthsProps {
   onSurface: () => void;
   memory: VisitMemory;
   noteSeen: (ids: readonly string[]) => void;
-  reducedMotion: boolean;
+  sensors: VoiceSensors;
 }
 
 /**
  * Below the waterline: the site's own quarters. Mounted lazily and
  * only while the visitor is down here.
  */
-const Depths: React.FC<DepthsProps> = ({ onSurface, memory, noteSeen, reducedMotion }) => {
+const Depths: React.FC<DepthsProps> = ({ onSurface, memory, noteSeen, sensors }) => {
   const headingRef = useRef<HTMLHeadingElement>(null);
-  const timeOfDay = useTimeOfDay();
-  const readingStyle = useScrollBehavior();
-  const prefersDark = usePrefersDark();
 
   useEffect(() => {
     headingRef.current?.focus();
@@ -43,7 +38,7 @@ const Depths: React.FC<DepthsProps> = ({ onSurface, memory, noteSeen, reducedMot
     >
       <SeaCanvas
         factory={createDepthsBackdrop}
-        reduced={reducedMotion}
+        reduced={sensors.reducedMotion}
         className="pointer-events-none fixed inset-0 h-full w-full"
       />
 
@@ -53,9 +48,10 @@ const Depths: React.FC<DepthsProps> = ({ onSurface, memory, noteSeen, reducedMot
           <button
             type="button"
             onClick={onSurface}
+            aria-label="Back to the surface (Escape)"
             className="pointer-events-auto uppercase tracking-[0.22em] text-moon/70 transition-colors hover:text-biolume"
           >
-            ↑ surface (esc)
+            <span aria-hidden="true">↑ </span>surface (esc)
           </button>
         </div>
 
@@ -75,19 +71,13 @@ const Depths: React.FC<DepthsProps> = ({ onSurface, memory, noteSeen, reducedMot
         </p>
 
         <DepthSection label="The monologue" depth="−5 m">
-          <Monologue memory={memory} noteSeen={noteSeen} />
+          <Monologue memory={memory} noteSeen={noteSeen} sensors={sensors} />
         </DepthSection>
 
         <Portrait />
         <Launch />
         <SourceReader />
-        <Observations
-          memory={memory}
-          timeOfDay={timeOfDay}
-          readingStyle={readingStyle}
-          prefersDark={prefersDark}
-          reducedMotion={reducedMotion}
-        />
+        <Observations memory={memory} sensors={sensors} />
 
         <div className="mt-20 border-t border-moon/15 pt-10 pb-6">
           <button
