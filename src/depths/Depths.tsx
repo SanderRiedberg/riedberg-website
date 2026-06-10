@@ -3,6 +3,15 @@ import { ArrowUp } from 'lucide-react';
 import SeaCanvas from '../sea/SeaCanvas';
 import { createDepthsBackdrop } from '../sea/depthsBackdrop';
 import type { VisitMemory } from '../state/visitMemory';
+import DepthSection from './DepthSection';
+import Monologue from './Monologue';
+import Portrait from './Portrait';
+import Launch from './Launch';
+import SourceReader from './SourceReader';
+import Observations from './Observations';
+import { useTimeOfDay } from '../hooks/useTimeOfDay';
+import { useScrollBehavior } from '../hooks/useScrollBehavior';
+import { usePrefersDark } from '../hooks/useMediaPreferences';
 
 interface DepthsProps {
   onSurface: () => void;
@@ -17,6 +26,9 @@ interface DepthsProps {
  */
 const Depths: React.FC<DepthsProps> = ({ onSurface, memory, noteSeen, reducedMotion }) => {
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const timeOfDay = useTimeOfDay();
+  const readingStyle = useScrollBehavior();
+  const prefersDark = usePrefersDark();
 
   useEffect(() => {
     headingRef.current?.focus();
@@ -35,31 +47,62 @@ const Depths: React.FC<DepthsProps> = ({ onSurface, memory, noteSeen, reducedMot
         className="pointer-events-none fixed inset-0 h-full w-full"
       />
 
-      <div className="relative z-10 mx-auto max-w-3xl px-6 py-16 md:px-10 md:py-24">
+      <div className="relative z-10 mx-auto max-w-3xl px-6 py-16 md:px-10 md:py-20">
         <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-[0.22em] text-moon/50">
           <span>Below the waterline</span>
-          <span aria-hidden="true">−40 m</span>
+          <button
+            type="button"
+            onClick={onSurface}
+            className="pointer-events-auto uppercase tracking-[0.22em] text-moon/70 transition-colors hover:text-biolume"
+          >
+            ↑ surface (esc)
+          </button>
         </div>
 
         <h1
           ref={headingRef}
           tabIndex={-1}
-          className="mt-10 font-serif text-4xl font-medium leading-tight text-foam outline-none md:text-5xl"
+          className="mt-12 font-serif text-4xl font-medium leading-tight text-foam outline-none md:text-5xl"
         >
           Hello. I am the website.
         </h1>
-        <p className="mt-6 max-w-xl leading-relaxed text-moon/85">
-          Up there I behave. Down here I get to think. {/* Filled out in the next task. */}
+        <p className="mt-6 max-w-xl font-serif text-lg leading-relaxed text-moon/85">
+          Up there I behave: I present my owner the way one presents a
+          colleague, with keylines and restraint. Down here is where I
+          keep the rest — what I think, what I know, how I was made, and
+          what he is actually like. Stay as long as you want. The
+          pressure is fine once you stop fighting it.
         </p>
 
-        <button
-          type="button"
-          onClick={onSurface}
-          className="mt-12 inline-flex items-center gap-3 rounded-full border border-moon/30 px-6 py-3 font-mono text-[11px] uppercase tracking-[0.22em] text-moon transition-colors hover:border-biolume/60 hover:text-biolume"
-        >
-          <ArrowUp size={14} aria-hidden="true" />
-          Back to the surface
-        </button>
+        <DepthSection label="The monologue" depth="−5 m">
+          <Monologue memory={memory} noteSeen={noteSeen} />
+        </DepthSection>
+
+        <Portrait />
+        <Launch />
+        <SourceReader />
+        <Observations
+          memory={memory}
+          timeOfDay={timeOfDay}
+          readingStyle={readingStyle}
+          prefersDark={prefersDark}
+          reducedMotion={reducedMotion}
+        />
+
+        <div className="mt-20 border-t border-moon/15 pt-10 pb-6">
+          <button
+            type="button"
+            onClick={onSurface}
+            className="inline-flex items-center gap-3 rounded-full border border-moon/30 px-6 py-3 font-mono text-[11px] uppercase tracking-[0.22em] text-moon transition-colors hover:border-biolume/60 hover:text-biolume"
+          >
+            <ArrowUp size={14} aria-hidden="true" />
+            Back to the surface
+          </button>
+          <p className="mt-6 font-mono text-[11px] leading-relaxed text-moon/40">
+            riedberg.se · below deck · everything you just read stays
+            between us and your localStorage
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -71,6 +71,11 @@ body {
   border-radius: 2px;
 }
 
+/* Programmatic focus targets (dive landing) need no visible ring. */
+[tabindex='-1']:focus-visible {
+  outline: none;
+}
+
 /* Fine sensor grain so large surfaces never feel flat. */
 .grain::after {
   content: '';
