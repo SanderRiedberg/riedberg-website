@@ -1,9 +1,17 @@
 import React from 'react';
 import { Mail, Phone, PenTool, Linkedin } from 'lucide-react';
 
+// Email and phone are assembled at render time from parts, so the
+// complete address never appears as a contiguous string in either the
+// served HTML or the JS bundle. Cheap insurance against harvesters.
+const EMAIL = ['sander', 'riedberg.se'].join('@');
+const PHONE_PARTS = ['+46', '70', '720', '88', '88'] as const;
+const PHONE_DISPLAY = PHONE_PARTS.join(' ');
+const PHONE_HREF = `tel:${PHONE_PARTS.join('')}`;
+
 const CONTACTS = [
-  { label: 'sander@riedberg.se', href: 'mailto:sander@riedberg.se', icon: Mail, external: false },
-  { label: '+46 70 720 88 88', href: 'tel:+46707208888', icon: Phone, external: false },
+  { label: EMAIL, href: `mailto:${EMAIL}`, icon: Mail, external: false },
+  { label: PHONE_DISPLAY, href: PHONE_HREF, icon: Phone, external: false },
   { label: 'blog.riedberg.se', href: 'https://blog.riedberg.se', icon: PenTool, external: true },
   { label: 'linkedin', href: 'https://www.linkedin.com/in/sander-riedberg/', icon: Linkedin, external: true },
 ] as const;

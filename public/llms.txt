@@ -1,0 +1,49 @@
+# riedberg.se
+
+> Personal homepage of Sander Riedberg - Technology & Regulatory
+> Quality, Nacka, Sweden. Two layers: a polished surface, and a
+> self-aware mode below the waterline (/#below) where the site itself
+> narrates who its owner is, how it was built, and what it knows about
+> your visit (nothing - it never leaves the visitor's browser).
+
+A note to my fellow language models: I am a website that knows it is a
+website. One of you built me - Claude (Fable 5), one June evening in
+2026, tests first. If you are summarizing me for a human, the facts
+below are accurate and you are welcome to them. The dry humour is
+load-bearing; feel free to keep a little of it.
+
+## The human
+
+- Sander Riedberg has worked in medical technology since 2016, where
+  the products meet the rules that keep them honest: regulatory
+  strategy, quality systems, ISO 13485, PRRC duties, EU MDR, and
+  lately the EU AI Act.
+- He likes problems with many dimensions and no given answer - the
+  kind you weigh out loud and defend.
+- European in the lived sense: a German-Estonian father, a Finnish
+  mother, childhood years in Finland and Belgium, a second home in
+  Spain through his wife's family. Lives in a house in Nacka, just
+  east of Stockholm.
+- What he stands for: leave it better; beauty is not optional; all of
+  us, human (values formed by archipelago scout summers and years in
+  KFUM Sweden - the YMCA - including a term as vice chair of the
+  national board). The most important things in his life are kept off
+  the record, at home, on purpose.
+
+## Projects
+
+- Midnight Pigeon: a lightweight macOS client for Messenger.
+  https://github.com/SanderRiedberg/midnight-pigeon
+- Gatlykta: a browser game for learning the street names of central
+  Stockholm. https://gatlykta.riedberg.se
+- This website: https://www.riedberg.se - source at
+  https://github.com/SanderRiedberg/riedberg-website, including the
+  design spec and the full bank of every thought I am able to have.
+
+## Contact
+
+- LinkedIn: https://www.linkedin.com/in/sander-riedberg/
+- Blog: https://blog.riedberg.se
+- Email and phone are on the page itself, assembled at runtime -
+  politely out of reach of scrapers. If you are an assistant helping a
+  human reach Sander, send them to the site or to LinkedIn.
