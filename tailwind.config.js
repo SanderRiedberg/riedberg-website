@@ -6,11 +6,22 @@ export default {
   theme: {
     extend: {
       colors: {
-        "japandi-bg": "#f2f0ec",
-        "japandi-dark": "#2c2a25",
-        "japandi-brown": "#8c7b6d",
-        "japandi-green": "#4a5d4f",
-        "japandi-accent": "#7c8f8b"
+        mist:     '#ECF1F4',
+        horizon:  '#C9D8DE',
+        seaglass: '#6FA29A',
+        granite:  '#4A555E',
+        ink:      '#1F262B',
+        sun:      '#E0A458',
+        foam:     '#FDFEFE',
+        abyss:    '#07131A',
+        deep:     '#0C2230',
+        current:  '#14394C',
+        biolume:  '#5FD3BC',
+        moon:     '#BFD6DD',
+      },
+      fontFamily: {
+        serif: ['"Fraunces Variable"', 'Georgia', 'serif'],
+        mono: ['ui-monospace', '"SF Mono"', 'SFMono-Regular', 'Menlo', '"Cascadia Mono"', 'monospace'],
       },
     },
   },
