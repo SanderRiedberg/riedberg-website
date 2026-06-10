@@ -1,54 +1,62 @@
 # Agent instructions
 
 Snabba fakta för en AI-agent (Claude Code, Codex, Cursor) som
-ska jobba i det här repot. Spara tool-calls — läs detta först.
+ska jobba i det här repot. Spara tool-calls - läs detta först.
 
 ## Vad det här är
 
-`www.riedberg.se` — en singel-sida personlig landning. React +
-Vite 6 + TypeScript + Tailwind 3. Byggs och deployas via GitHub
+`www.riedberg.se` - Sanders personliga hemsida, konceptet
+**Vattenlinjen**: en polerad fasad ovanför vattenytan och ett
+skriptat "medvetande" under den (`#below`). React + Vite 6 +
+TypeScript + Tailwind 3 + vitest. Byggs och deployas via GitHub
 Actions, hostas på GitHub Pages med custom domain via Loopia DNS.
+Designspec och implementationsplan ligger i `docs/superpowers/`.
 
-## Vad du INTE behöver göra
+## Hårda principer
 
-- **Bygg inte lokalt** för att deploya. `git push` triggar Action
-  som bygger och publicerar. Lokala `npm run build` används bara
-  om du vill verifiera output innan push.
-- **Rör inte `dist/`** — den är `.gitignored` och regenereras av
-  Action vid varje push.
-- **Skapa inte ny `CNAME`-fil i root.** Den ligger i `public/`
-  och Vite kopierar den till `dist/CNAME` vid build. Två CNAME-
-  filer på olika ställen ställer till det.
-- **Rör inte Pages-source via Settings**. Den är satt till
-  "GitHub Actions" och styrs av `.github/workflows/deploy.yml`.
+- **Ingen server, ingen tracking.** Sajtens integritetslöfte ("I have
+  no server to gossip to") är innehåll. Lägg ALDRIG till analytics,
+  externa fonter (CDN), API-anrop eller annan tredjepartstrafik.
+  Fonten är självhostad via `@fontsource-variable/fraunces`.
+- **Immutabilitet och validering.** `visitMemory` läses alltid via
+  säker parse med fallback; uppdateringar är immutabla. Behåll det.
+- **Reduced motion respekteras överallt** - canvasmotorer ritar en
+  statisk frame, dyket blir en crossfade.
+- Bygg inte lokalt för att deploya. `git push` triggar Action.
+- Rör inte `dist/`, `public/CNAME`-upplägget eller Pages-source.
 
 ## Vad du gör vid typiska ändringar
 
-- **Texten på sidan** → editera `src/components/ProfileCard.tsx`
-  eller den komponent som äger texten. Pusha. Klart.
-- **Färger / typografi** → `src/index.css` eller `tailwind.config.js`.
-- **Favicon** → `public/favicon.svg`. Single SVG täcker alla
-  storlekar via tre `<link>`-taggar i `index.html`.
-- **SEO** → `index.html` (meta, og:, JSON-LD) och
-  `public/sitemap.xml`, `public/robots.txt`.
-- **Nytt repo-bundlat asset** → lägg i `public/` om det ska
-  serveras as-is, eller importera i source om Vite ska bundla.
+- **Sajtens "tankar"** → `src/voice/thoughts.ts`. Unika `id`
+  (persisteras som sedda), `when`-villkor mot `VoiceContext`,
+  `once` för engångstankar. Kör `npm test` efteråt.
+- **Fasadens text** → `src/surface/About.tsx`, `Values.tsx`,
+  `Projects.tsx`, `Hero.tsx`.
+- **Djupets text** → `src/depths/Portrait.tsx`, `Launch.tsx`,
+  `Observations.tsx`.
+- **Färger / tidsljus** → `tailwind.config.js` (tokens) och
+  `src/index.css` (`[data-time=...]`-variabler).
+- **Canvaseffekter** → `src/sea/`. FPS-cap och visibilitets-paus
+  ligger i `src/sea/engine.ts`.
+- **SEO** → `index.html` (meta, og, JSON-LD), `public/sitemap.xml`.
 
 ## Verifiering före push
 
 ```bash
-npm ci          # rensar och installerar exakt enligt lock-fil
-npm run build   # ska gå utan errors; output i dist/
-npm run preview # öppna localhost:4173, kolla sajten
+npm ci
+npm test                 # 37+ enhetstester ska vara gröna
+npm run build            # utan errors
+npm run preview          # localhost:4173
+node scripts/shoot.mjs "http://localhost:4173/?t=day" /tmp/shot   # skärmdump + layoutmetrik
+node scripts/dive-test.mjs                                        # dyk/escape/back-flöde
 ```
 
-Snabbcheck efter push:
+Skärmdumpsskripten använder den lokalt cachade Playwright-chromium
+(`~/Library/Caches/ms-playwright/chromium_headless_shell-1223`).
+Dolda dev-parametrar: `?t=dawn|day|golden|night` låser tidstemat,
+`?y=<px>` skrollar efter mount.
 
-```bash
-gh run watch    # följ Action-statusen från terminalen
-```
-
-eller besök Actions-fliken i repot.
+Snabbcheck efter push: `gh run watch` eller Actions-fliken.
 
 ## DNS-läge (status quo, ändra bara om det krävs)
 
@@ -64,25 +72,17 @@ DNS-leverantör: Loopia. Mail: iCloud Custom Domain.
 
 ## Var bor det andra?
 
-- `gatlykta.riedberg.se` — annat repo (`SanderRiedberg/gatlykta`)
-  med en mer omfattande `WORKLOG.md` och `ARCHITECTURE.md`.
-- Hemma-server (Ubuntu, nås via `ssh ubuntu-server` från Sanders
-  Mac) hostar `books`, `home`, `blog`, `ai`, `vpn` via Nginx
-  Proxy Manager. Tidigare host av `www.riedberg.se`, nu inaktiv
-  proxy_host/7.conf — kan rensas vid lugnt tillfälle.
+- `gatlykta.riedberg.se` - annat repo (`SanderRiedberg/gatlykta`).
+- Hemma-server (Ubuntu, `ssh ubuntu-server`) hostar `books`, `home`,
+  `blog`, `ai`, `vpn` via Nginx Proxy Manager.
 
 ## Workflow för en uppdatering
 
 ```bash
 git clone https://github.com/SanderRiedberg/riedberg-website
-cd riedberg-website
-npm install
-# editera vad du vill, t.ex. src/components/ProfileCard.tsx
-npm run dev          # iterera på localhost:5173
-git add -A
-git commit -m "feat: ny rad på profilkortet"
-git push
-# ~60 sek senare live på www.riedberg.se
+cd riedberg-website && npm install
+# editera, t.ex. src/voice/thoughts.ts
+npm test && npm run build
+git add -A && git commit -m "feat: ny tanke i tankebanken"
+git push   # ~60 sek senare live
 ```
-
-Klart. Inga fler steg.

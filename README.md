@@ -1,36 +1,48 @@
 # riedberg-website
 
-Källkoden för [www.riedberg.se](https://www.riedberg.se) — Sanders
-personliga landningssida. React + Vite + TypeScript + Tailwind.
+Källkoden för [www.riedberg.se](https://www.riedberg.se) - Sanders
+personliga hemsida. React + Vite + TypeScript + Tailwind.
+
+Konceptet heter **Vattenlinjen**: sajten är en ö i skärgården. Ovanför
+vattenytan en polerad personlig fasad; under vattenlinjen bor sajtens
+medvetande - en skriptad inre monolog, dess tillblivelsehistoria, dess
+egen källkod och allt den vet om besöket (vilket stannar i besökarens
+webbläsare; det finns ingen server, ingen tracking, inga API-anrop).
+Spec och plan: [`docs/superpowers/`](./docs/superpowers/).
 
 ## Lokal utveckling
 
 ```bash
 npm install
 npm run dev       # dev-server på localhost:5173
+npm test          # vitest - röstmotor, minne, tidstema
 npm run build     # bygger till dist/
 npm run preview   # serverar dist/ lokalt för verifiering
 ```
+
+Dolda utvecklarparametrar: `?t=dawn|day|golden|night` låser tidsljuset,
+`?y=2400` skrollar dit efter mount (för headless-skärmdumpar).
 
 ## Arkitektur
 
 | Plats | Vad |
 |---|---|
-| `src/` | React-källkod (App, components, styles) |
-| `index.html` | Vite-entry, refererar `/src/main.tsx` |
-| `public/` | Statiska filer som kopieras as-is till `dist/` |
-| `public/CNAME` | `www.riedberg.se` — håller GitHub Pages custom domain |
-| `public/favicon.svg` | Monogram-favicon (en enda SVG, alla sizes) |
-| `public/og-1200x630.jpg` | Open Graph-bild |
-| `public/robots.txt`, `sitemap.xml`, `ld.html` | SEO-statics |
+| `src/surface/` | Fasaden: Hero, About, Values, Projects, Waterline, FacadeCracks, DiveTransition |
+| `src/depths/` | Medvetandet: Monologue, Portrait, Launch, SourceReader, Observations |
+| `src/voice/` | Röstmotorn: tankebank (`thoughts.ts`), urvalslogik (`engine.ts`), kontext |
+| `src/sea/` | Canvasmotorer: vattenyta, djupbakgrund, delat chassi |
+| `src/hooks/` | Sensorer: tid på dygnet, idle, skrollbeteende, mediapreferenser, besöksminne |
+| `src/state/` | `visitMemory.ts` - versionerat localStorage-minne, validerat vid läsning |
+| `src/theme/` | Klocka → tidstema |
+| `tests/` | Vitest-enhetstester för all ren logik |
+| `scripts/` | Verifieringsharness (Playwright-skärmdumpar via cachad chromium) |
+| `public/` | Statiska filer: CNAME, favicon, OG-bild, robots, sitemap |
 | `.github/workflows/deploy.yml` | Auto-build + deploy till Pages |
-| `dist/` | Build-output (gitignored, byggs av Action) |
 
 ## Deploy
 
-`git push origin main` → GitHub Action bygger automatiskt och
-deployar till Pages. Inget manuellt steg. ~60 sek från push till
-live.
+`git push origin main` → GitHub Action bygger och deployar till Pages.
+Inget manuellt steg. ~60 sek från push till live.
 
 GitHub Pages source är konfigurerad som **GitHub Actions**
 (Settings → Pages). Inte "Deploy from a branch".
