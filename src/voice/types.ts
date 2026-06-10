@@ -1,5 +1,6 @@
 export type TimeOfDay = 'dawn' | 'day' | 'golden' | 'night';
 export type SiteMode = 'surface' | 'below';
+export type DivePhase = 'surface' | 'diving' | 'below' | 'surfacing';
 export type ReadingStyle = 'reader' | 'scanner' | 'unknown';
 
 export interface VoiceContext {
