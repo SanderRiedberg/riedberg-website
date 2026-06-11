@@ -6,7 +6,7 @@
  * To activate: enable "Share URL" for the website in Umami and put the
  * id from https://analytics.riedberg.se/share/{SHARE_ID}/... here.
  */
-export const SHARE_ID = '';
+export const SHARE_ID = '5PpyPIFQqiad7T0p';
 
 const BASE = 'https://analytics.riedberg.se';
 
@@ -47,19 +47,25 @@ export const parseStats = (
   return { pageviews, visitors };
 };
 
-/** Pure: extracts the share grant from an untrusted share body. */
+/** Pure: extracts the share grant from an untrusted share body.
+ *  Newer Umami returns `websiteId`, older returns `id`. */
 export const parseShareGrant = (body: unknown): ShareGrant | null => {
   if (typeof body !== 'object' || body === null) return null;
   const b = body as Record<string, unknown>;
-  if (typeof b.id === 'string' && typeof b.token === 'string') {
-    return { websiteId: b.id, token: b.token };
+  const websiteId =
+    typeof b.websiteId === 'string' ? b.websiteId : typeof b.id === 'string' ? b.id : null;
+  if (websiteId && typeof b.token === 'string') {
+    return { websiteId, token: b.token };
   }
   return null;
 };
 
 const getJson = async (url: string, token?: string): Promise<unknown> => {
   const res = await fetch(url, {
-    headers: token ? { 'x-umami-share-token': token } : {},
+    // Umami v3 requires both headers for share-token access.
+    headers: token
+      ? { 'x-umami-share-token': token, 'x-umami-share-context': '1' }
+      : {},
   });
   if (!res.ok) throw new Error(`umami ${res.status}`);
   return res.json();
