@@ -2,18 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Ambient light, time-aware but architectural - not a literal sun.
-   --bloom is a soft, edgeless light field; the palette stays
-   desaturated and professional, with only a hint of the hour's hue. */
+/* Ambient light, time-aware but architectural. The palette stays
+   desaturated and professional, with only a hint of the hour's hue;
+   the particle field in the hero is drawn in --hero-ink. */
 :root {
   --sky-top: #aeb9c2;
   --sky-mid: #c7ced3;
   --sky-low: #e8ebec;
   --hero-ink: #1b2228;
   --hero-sub: rgba(27, 34, 40, 0.6);
-  --bloom: rgba(255, 255, 255, 0.55);
-  --bloom-x: 74%;
-  --bloom-y: 16%;
   --horizon-glow: rgba(124, 143, 139, 0.18);
 }
 
@@ -23,9 +20,6 @@
   --sky-low: #51606b;
   --hero-ink: #eef2f4;
   --hero-sub: rgba(238, 242, 244, 0.62);
-  --bloom: rgba(228, 196, 150, 0.34);
-  --bloom-x: 28%;
-  --bloom-y: 70%;
   --horizon-glow: rgba(228, 196, 150, 0.2);
 }
 
@@ -35,9 +29,6 @@
   --sky-low: #a99b86;
   --hero-ink: #f5f3ef;
   --hero-sub: rgba(245, 243, 239, 0.66);
-  --bloom: rgba(226, 190, 140, 0.4);
-  --bloom-x: 72%;
-  --bloom-y: 64%;
   --horizon-glow: rgba(200, 170, 120, 0.22);
 }
 
@@ -47,9 +38,6 @@
   --sky-low: #222e3a;
   --hero-ink: #e6edf1;
   --hero-sub: rgba(230, 237, 241, 0.6);
-  --bloom: rgba(150, 180, 200, 0.22);
-  --bloom-x: 70%;
-  --bloom-y: 22%;
   --horizon-glow: rgba(120, 150, 170, 0.16);
 }
 

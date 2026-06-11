@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Mail, Phone, PenTool, Linkedin } from 'lucide-react';
+import SeaCanvas from '../sea/SeaCanvas';
+import { createHeroField } from '../sea/heroField';
 import { useParallax } from '../hooks/useParallax';
 import { useReducedMotion } from '../hooks/useMediaPreferences';
 
@@ -18,18 +20,15 @@ const CONTACTS = [
   { label: 'linkedin', href: 'https://www.linkedin.com/in/sander-riedberg/', icon: Linkedin, external: true },
 ] as const;
 
-const BLOOM_GRADIENT = 'radial-gradient(46rem 38rem at center, var(--bloom), transparent 70%)';
-
 /**
- * The opening: name, position and portrait over an ambient, time-aware
- * light field - architectural rather than a literal sun over water.
- * The light and grid drift gently with scroll; a soft glow follows the
- * pointer.
+ * The opening: name, position and portrait over a quiet, futuristic
+ * particle field - drifting motes, pulsing nodes and faint cloud
+ * masses, tinted by the hour. The grid drifts gently with scroll; a
+ * soft glow follows the pointer.
  */
 const Hero: React.FC = () => {
   const reducedMotion = useReducedMotion();
   const headerRef = useRef<HTMLElement>(null);
-  const bloomWrap = useParallax<HTMLDivElement>(0.12);
   const gridRef = useParallax<HTMLDivElement>(0.06);
 
   // Soft pointer light. Cheap style mutation, no re-render; off when the
@@ -83,19 +82,12 @@ const Hero: React.FC = () => {
         }}
       />
 
-      {/* Ambient light field - diffuse, edgeless */}
-      <div
-        ref={bloomWrap}
-        aria-hidden="true"
-        className="absolute"
-        style={{
-          left: 'var(--bloom-x)',
-          top: 'var(--bloom-y)',
-          transform: 'translate3d(0, var(--parallax, 0), 0)',
-        }}
-      >
-        <div className="h-[40rem] w-[46rem] -translate-x-1/2 -translate-y-1/2" style={{ background: BLOOM_GRADIENT }} />
-      </div>
+      {/* Ambient particle field, tinted by the hour via currentColor */}
+      <SeaCanvas
+        factory={createHeroField}
+        reduced={reducedMotion}
+        className="absolute inset-0 h-full w-full [color:var(--hero-ink)]"
+      />
 
       {/* Faint transition toward the water far below */}
       <div
@@ -171,7 +163,7 @@ const Hero: React.FC = () => {
           className="anim-rise inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.22em] opacity-70 transition-opacity hover:opacity-100"
           style={{ animationDelay: '0.85s' }}
         >
-          Soundings below ↓
+          Continue below ↓
         </a>
       </div>
     </header>

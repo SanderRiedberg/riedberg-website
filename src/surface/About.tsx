@@ -5,8 +5,8 @@ import Reveal from './Reveal';
 const CHART_DATA = [
   ['Base', 'Nacka, Stockholm'],
   ['In medtech since', '2016'],
-  ['Home waters', 'ISO 13485 · PRRC · EU MDR · EU AI Act'],
-  ['Ports of call', 'Finland · Belgium · Spain'],
+  ['Frameworks', 'ISO 13485 · PRRC · EU MDR · EU AI Act'],
+  ['Roots', 'Finland · Belgium · Spain'],
 ] as const;
 
 const About: React.FC = () => (

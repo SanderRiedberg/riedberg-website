@@ -16,7 +16,7 @@ const VALUES = [
     body: 'Scouting summers on an island in the Stockholm archipelago taught me early that people arrive from different backgrounds and leave as friends. I carried that through years in KFUM Sweden - the YMCA - including a term as vice chair of the national board.',
   },
   {
-    title: 'Home port',
+    title: 'What matters most',
     body: 'The most important things in my life are not on this website. They are at home.',
   },
 ] as const;
