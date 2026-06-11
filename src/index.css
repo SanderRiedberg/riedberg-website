@@ -2,58 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Time-of-day light. The sky follows the visitor's clock.
-   --disc is the crisp core of the sun/moon, --disc-glow its halo. */
+/* Ambient light, time-aware but architectural - not a literal sun.
+   --bloom is a soft, edgeless light field; the palette stays
+   desaturated and professional, with only a hint of the hour's hue. */
 :root {
-  --sky-top: #8fb3c8;
-  --sky-mid: #b6d0db;
-  --sky-low: #e6edf0;
-  --hero-ink: #1d2429;
-  --hero-sub: rgba(29, 36, 41, 0.66);
-  --disc: #fff3d2;
-  --disc-glow: rgba(255, 214, 150, 0.6);
-  --disc-x: 76%;
-  --disc-y: 22%;
-  --horizon-glow: rgba(111, 162, 154, 0.32);
+  --sky-top: #aeb9c2;
+  --sky-mid: #c7ced3;
+  --sky-low: #e8ebec;
+  --hero-ink: #1b2228;
+  --hero-sub: rgba(27, 34, 40, 0.6);
+  --bloom: rgba(255, 255, 255, 0.55);
+  --bloom-x: 74%;
+  --bloom-y: 16%;
+  --horizon-glow: rgba(124, 143, 139, 0.18);
 }
 
 [data-time='dawn'] {
-  --sky-top: #39465a;
-  --sky-mid: #8e6e78;
-  --sky-low: #dca98b;
-  --hero-ink: #f4f6f7;
-  --hero-sub: rgba(244, 246, 247, 0.66);
-  --disc: #ffe3bf;
-  --disc-glow: rgba(240, 180, 120, 0.55);
-  --disc-x: 26%;
-  --disc-y: 74%;
-  --horizon-glow: rgba(224, 164, 88, 0.4);
+  --sky-top: #1b2430;
+  --sky-mid: #2e3a45;
+  --sky-low: #51606b;
+  --hero-ink: #eef2f4;
+  --hero-sub: rgba(238, 242, 244, 0.62);
+  --bloom: rgba(228, 196, 150, 0.34);
+  --bloom-x: 28%;
+  --bloom-y: 70%;
+  --horizon-glow: rgba(228, 196, 150, 0.2);
 }
 
 [data-time='golden'] {
-  --sky-top: #3d4757;
-  --sky-mid: #a8765c;
-  --sky-low: #e3b377;
-  --hero-ink: #f7f5f1;
-  --hero-sub: rgba(247, 245, 241, 0.68);
-  --disc: #fff0cc;
-  --disc-glow: rgba(238, 170, 95, 0.6);
-  --disc-x: 74%;
-  --disc-y: 70%;
-  --horizon-glow: rgba(224, 164, 88, 0.45);
+  --sky-top: #2b333d;
+  --sky-mid: #5d564f;
+  --sky-low: #a99b86;
+  --hero-ink: #f5f3ef;
+  --hero-sub: rgba(245, 243, 239, 0.66);
+  --bloom: rgba(226, 190, 140, 0.4);
+  --bloom-x: 72%;
+  --bloom-y: 64%;
+  --horizon-glow: rgba(200, 170, 120, 0.22);
 }
 
 [data-time='night'] {
-  --sky-top: #06101a;
-  --sky-mid: #0d1f2c;
-  --sky-low: #1b3242;
-  --hero-ink: #e5edf0;
-  --hero-sub: rgba(229, 237, 240, 0.6);
-  --disc: #e8f1f5;
-  --disc-glow: rgba(150, 196, 214, 0.4);
-  --disc-x: 70%;
-  --disc-y: 24%;
-  --horizon-glow: rgba(95, 211, 188, 0.2);
+  --sky-top: #070e16;
+  --sky-mid: #111b25;
+  --sky-low: #222e3a;
+  --hero-ink: #e6edf1;
+  --hero-sub: rgba(230, 237, 241, 0.6);
+  --bloom: rgba(150, 180, 200, 0.22);
+  --bloom-x: 70%;
+  --bloom-y: 22%;
+  --horizon-glow: rgba(120, 150, 170, 0.16);
 }
 
 html {

@@ -29,17 +29,7 @@ const About: React.FC = () => (
           asking for attention and the sea is never far.
         </p>
       </Reveal>
-      <Reveal index={1} className="space-y-7">
-        <figure className="group overflow-hidden rounded-2xl border border-ink/10 bg-foam/40 shadow-[0_8px_30px_rgba(31,38,43,0.08)]">
-          <img
-            src="/og-1200x630.jpg"
-            alt="Sander Riedberg"
-            loading="lazy"
-            width={1200}
-            height={630}
-            className="aspect-[4/5] w-full object-cover object-[30%_18%] transition-transform duration-[1.4s] ease-out group-hover:scale-[1.04]"
-          />
-        </figure>
+      <Reveal index={1} className="h-fit">
         <dl className="space-y-4 border-l border-ink/15 pl-6 font-mono text-xs leading-relaxed">
           {CHART_DATA.map(([k, v]) => (
             <div key={k}>
