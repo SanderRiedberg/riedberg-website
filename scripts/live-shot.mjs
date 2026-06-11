@@ -1,0 +1,13 @@
+import { chromium } from 'playwright-core';
+import { homedir } from 'node:os';
+const exe = `${homedir()}/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell`;
+const browser = await chromium.launch({ executablePath: exe });
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+await page.goto('https://www.riedberg.se/?t=day', { waitUntil: 'networkidle' });
+await page.waitForTimeout(1800);
+await page.screenshot({ path: '/tmp/vattenlinjen-shots/LIVE-hero.png' });
+await page.evaluate(() => document.getElementById('who')?.scrollIntoView({block:'center'}));
+await page.waitForTimeout(1600);
+await page.screenshot({ path: '/tmp/vattenlinjen-shots/LIVE-who.png' });
+await browser.close();
+console.log('live shots captured');

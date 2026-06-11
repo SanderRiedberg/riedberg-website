@@ -1,0 +1,12 @@
+import { chromium } from 'playwright-core';
+import { homedir } from 'node:os';
+const exe = `${homedir()}/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell`;
+const browser = await chromium.launch({ executablePath: exe });
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+await page.goto('http://localhost:4173/?t=day', { waitUntil: 'networkidle' });
+await page.waitForTimeout(700);
+await page.evaluate(() => document.getElementById('who')?.scrollIntoView({block:'center'}));
+await page.waitForTimeout(1200);
+const fig = await page.locator('#who figure');
+await fig.screenshot({ path: '/tmp/vattenlinjen-shots/portrait-crop.png' });
+await browser.close();

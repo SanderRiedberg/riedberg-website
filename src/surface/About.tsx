@@ -37,7 +37,7 @@ const About: React.FC = () => (
             loading="lazy"
             width={1200}
             height={630}
-            className="aspect-[4/5] w-full object-cover object-[center_20%] transition-transform duration-[1.4s] ease-out group-hover:scale-[1.04]"
+            className="aspect-[4/5] w-full object-cover object-[30%_18%] transition-transform duration-[1.4s] ease-out group-hover:scale-[1.04]"
           />
         </figure>
         <dl className="space-y-4 border-l border-ink/15 pl-6 font-mono text-xs leading-relaxed">
