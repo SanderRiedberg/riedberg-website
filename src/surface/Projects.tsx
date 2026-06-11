@@ -1,14 +1,15 @@
 import React from 'react';
 import Section from './Section';
+import Reveal from './Reveal';
 
 interface ProjectsProps {
   onDive: () => void;
 }
 
 const Projects: React.FC<ProjectsProps> = ({ onDive }) => (
-  <Section id="projects" index="03" label="Projects" altitude="alt 6 m">
+  <Section id="projects" index="03" label="Projects" altitudeM={6}>
     <div className="divide-y divide-ink/10">
-      <article className="grid gap-3 py-8 first:pt-0 md:grid-cols-[1fr_2fr] md:gap-10">
+      <Reveal as="article" className="project-row relative grid gap-3 py-8 first:pt-0 md:grid-cols-[1fr_2fr] md:gap-10">
         <div>
           <h3 className="font-serif text-2xl font-medium text-ink">Midnight Pigeon</h3>
           <a
@@ -25,9 +26,9 @@ const Projects: React.FC<ProjectsProps> = ({ onDive }) => (
           sunset the desktop app. Native menus, shortcuts and
           notifications wrapped around the web experience.
         </p>
-      </article>
+      </Reveal>
 
-      <article className="grid gap-3 py-8 md:grid-cols-[1fr_2fr] md:gap-10">
+      <Reveal as="article" index={1} className="project-row relative grid gap-3 py-8 md:grid-cols-[1fr_2fr] md:gap-10">
         <div>
           <h3 className="font-serif text-2xl font-medium text-ink">Gatlykta</h3>
           <div className="mt-1 flex gap-4 font-mono text-xs">
@@ -55,9 +56,9 @@ const Projects: React.FC<ProjectsProps> = ({ onDive }) => (
           where you are. Built for the quiet joy of knowing a city by
           name.
         </p>
-      </article>
+      </Reveal>
 
-      <article className="grid gap-3 py-8 last:pb-0 md:grid-cols-[1fr_2fr] md:gap-10">
+      <Reveal as="article" index={2} className="project-row relative grid gap-3 py-8 last:pb-0 md:grid-cols-[1fr_2fr] md:gap-10">
         <div>
           <h3 className="font-serif text-2xl font-medium text-ink">This website</h3>
           <button
@@ -69,11 +70,11 @@ const Projects: React.FC<ProjectsProps> = ({ onDive }) => (
           </button>
         </div>
         <p className="leading-relaxed text-granite">
-          The page you are reading — which is also, in a quiet way,
+          The page you are reading - which is also, in a quiet way,
           reading you. Drafted by a human, built by a machine. It tells
           the whole story itself, below the waterline.
         </p>
-      </article>
+      </Reveal>
     </div>
   </Section>
 );

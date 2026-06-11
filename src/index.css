@@ -2,17 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Time-of-day light. The sky follows the visitor's clock. */
+/* Time-of-day light. The sky follows the visitor's clock.
+   --disc is the crisp core of the sun/moon, --disc-glow its halo. */
 :root {
-  --sky-top: #b8cdd8;
-  --sky-mid: #dae6eb;
-  --sky-low: #ecf1f4;
-  --hero-ink: #1f262b;
-  --hero-sub: rgba(31, 38, 43, 0.62);
-  --disc: rgba(253, 254, 254, 0.9);
+  --sky-top: #8fb3c8;
+  --sky-mid: #b6d0db;
+  --sky-low: #e6edf0;
+  --hero-ink: #1d2429;
+  --hero-sub: rgba(29, 36, 41, 0.66);
+  --disc: #fff3d2;
+  --disc-glow: rgba(255, 214, 150, 0.6);
   --disc-x: 76%;
-  --disc-y: 20%;
-  --horizon-glow: rgba(111, 162, 154, 0.3);
+  --disc-y: 22%;
+  --horizon-glow: rgba(111, 162, 154, 0.32);
 }
 
 [data-time='dawn'] {
@@ -21,7 +23,8 @@
   --sky-low: #dca98b;
   --hero-ink: #f4f6f7;
   --hero-sub: rgba(244, 246, 247, 0.66);
-  --disc: rgba(240, 196, 150, 0.9);
+  --disc: #ffe3bf;
+  --disc-glow: rgba(240, 180, 120, 0.55);
   --disc-x: 26%;
   --disc-y: 74%;
   --horizon-glow: rgba(224, 164, 88, 0.4);
@@ -33,9 +36,10 @@
   --sky-low: #e3b377;
   --hero-ink: #f7f5f1;
   --hero-sub: rgba(247, 245, 241, 0.68);
-  --disc: rgba(238, 181, 110, 0.95);
+  --disc: #fff0cc;
+  --disc-glow: rgba(238, 170, 95, 0.6);
   --disc-x: 74%;
-  --disc-y: 72%;
+  --disc-y: 70%;
   --horizon-glow: rgba(224, 164, 88, 0.45);
 }
 
@@ -45,7 +49,8 @@
   --sky-low: #1b3242;
   --hero-ink: #e5edf0;
   --hero-sub: rgba(229, 237, 240, 0.6);
-  --disc: rgba(214, 228, 232, 0.85);
+  --disc: #e8f1f5;
+  --disc-glow: rgba(150, 196, 214, 0.4);
   --disc-x: 70%;
   --disc-y: 24%;
   --horizon-glow: rgba(95, 211, 188, 0.2);
@@ -125,6 +130,90 @@ body {
 
 .anim-caret {
   animation: blink-caret 1.1s step-end infinite;
+}
+
+/* Scroll reveal: elements rise and fade in once, when scrolled into
+   view. data-revealed is flipped by useReveal. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 1s cubic-bezier(0.2, 0.6, 0.2, 1),
+    transform 1s cubic-bezier(0.2, 0.6, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal[data-revealed='true'] {
+  opacity: 1;
+  transform: none;
+}
+
+/* A keyline that draws itself left-to-right on reveal. */
+.keyline-draw {
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 1.2s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+.keyline-draw[data-revealed='true'] {
+  transform: scaleX(1);
+}
+
+/* Pointer light: a soft highlight that follows the cursor across the
+   hero. Variables default to a calm resting position. */
+.pointer-light::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    34rem 34rem at var(--mx, 70%) var(--my, 26%),
+    rgba(255, 255, 255, 0.14),
+    transparent 60%
+  );
+  opacity: 0.8;
+  transition: background 0.3s ease-out;
+}
+
+/* Contact links: icon tile fills, label underline slides in. */
+.contact-link .contact-tile {
+  transition:
+    background-color 0.35s ease,
+    transform 0.35s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+.contact-link:hover .contact-tile {
+  transform: translateY(-2px);
+}
+.contact-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.4s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+.contact-link:hover .contact-underline {
+  background-size: 100% 1px;
+}
+
+/* Project rows lift, with a seaglass accent bar sliding down the left. */
+.project-row {
+  transition: transform 0.45s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+.project-row::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #6fa29a;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.5s cubic-bezier(0.2, 0.6, 0.2, 1);
+}
+.project-row:hover {
+  transform: translateX(6px);
+}
+.project-row:hover::before {
+  transform: scaleY(1);
 }
 
 @media (prefers-reduced-motion: reduce) {
