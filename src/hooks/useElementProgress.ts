@@ -13,7 +13,7 @@ import { useReducedMotion } from './useMediaPreferences';
  * static, non-scrubbed version.
  */
 export const useElementProgress = <T extends HTMLElement = HTMLDivElement>(
-  steps = 200,
+  steps = 120,
 ): { ref: RefObject<T | null>; progress: number | null } => {
   const reducedMotion = useReducedMotion();
   const ref = useRef<T>(null);

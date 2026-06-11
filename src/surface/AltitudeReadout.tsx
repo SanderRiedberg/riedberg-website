@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useReveal } from '../hooks/useReveal';
 import { useReducedMotion } from '../hooks/useMediaPreferences';
 
@@ -19,15 +19,15 @@ const AltitudeReadout: React.FC<AltitudeReadoutProps> = ({ meters, className = '
   const reducedMotion = useReducedMotion();
   const { ref, revealed } = useReveal<HTMLSpanElement>();
   const [shown, setShown] = useState(reducedMotion ? meters : meters + 8);
-  const started = useRef(false);
 
   useEffect(() => {
-    if (reducedMotion || !revealed || started.current) {
-      if (reducedMotion) setShown(meters);
+    if (reducedMotion) {
+      setShown(meters);
       return;
     }
-    started.current = true;
+    if (!revealed) return;
     let current = meters + 8;
+    setShown(current);
     const timer = window.setInterval(() => {
       current -= 1;
       if (current <= meters) {

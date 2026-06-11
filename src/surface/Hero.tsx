@@ -39,10 +39,12 @@ const Hero: React.FC = () => {
     const el = headerRef.current;
     if (!el) return;
     let frame = 0;
+    let cancelled = false;
     const onMove = (e: PointerEvent) => {
       if (frame) return;
       frame = requestAnimationFrame(() => {
         frame = 0;
+        if (cancelled) return;
         const rect = el.getBoundingClientRect();
         const mx = ((e.clientX - rect.left) / rect.width) * 100;
         const my = ((e.clientY - rect.top) / rect.height) * 100;
@@ -52,6 +54,7 @@ const Hero: React.FC = () => {
     };
     el.addEventListener('pointermove', onMove);
     return () => {
+      cancelled = true;
       el.removeEventListener('pointermove', onMove);
       if (frame) cancelAnimationFrame(frame);
     };

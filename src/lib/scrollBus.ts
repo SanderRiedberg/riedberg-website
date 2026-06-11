@@ -41,5 +41,10 @@ export const subscribeScroll = (listen: Listener): (() => void) => {
   listen();
   return () => {
     listeners.delete(listen);
+    if (listeners.size === 0 && attached) {
+      window.removeEventListener('scroll', onActivity);
+      window.removeEventListener('resize', onActivity);
+      attached = false;
+    }
   };
 };

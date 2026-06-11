@@ -95,7 +95,10 @@ const Waterline: React.FC<WaterlineProps> = ({ onDive, reducedMotion }) => {
   // Pinned, scroll-scrubbed scene.
   const level = 46 + progress * 54; // % of viewport covered by water
   const colophonOpacity = clamp(1 - progress * 1.8, 0, 1);
-  const buttonOpacity = clamp(1 - progress * 2.2, 0.12, 1);
+  const buttonOpacity = clamp(1 - progress * 2.2, 0, 1);
+  // Once it has all but faded, take the button out of the tab order and
+  // pointer reach so it is never an invisible click/keyboard target.
+  const buttonGone = buttonOpacity < 0.15;
 
   return (
     <section ref={ref} aria-label="The waterline" className="relative h-[190vh]">
@@ -128,7 +131,9 @@ const Waterline: React.FC<WaterlineProps> = ({ onDive, reducedMotion }) => {
 
         <div
           className="absolute inset-x-0 top-1/2 z-10 flex -translate-y-1/2 justify-center"
-          style={{ opacity: buttonOpacity }}
+          style={{ opacity: buttonOpacity, pointerEvents: buttonGone ? 'none' : undefined }}
+          aria-hidden={buttonGone || undefined}
+          inert={buttonGone || undefined}
         >
           <DiveButton onDive={onDive} bob />
         </div>
