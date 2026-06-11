@@ -1,4 +1,5 @@
 import { createEngine, mulberry32, type CanvasEngine, type EngineOpts } from './engine';
+import { decaySeaEnergy, readSeaEnergy } from './energy';
 
 interface WaveLayer {
   /** Fraction of canvas height where this layer's surface rests. */
@@ -24,10 +25,15 @@ const surfaceY = (
   x: number,
   t: number,
   height: number,
-): number =>
-  layer.baseY * height +
-  layer.amplitude * Math.sin((x / layer.wavelength) * Math.PI * 2 + layer.phase + t * layer.speed * Math.PI * 2 * 0.2) +
-  layer.amplitude * 0.4 * Math.sin((x / (layer.wavelength * 0.53)) * Math.PI * 2 - t * layer.speed * 1.7);
+  swell: number,
+): number => {
+  const amp = layer.amplitude * swell;
+  return (
+    layer.baseY * height +
+    amp * Math.sin((x / layer.wavelength) * Math.PI * 2 + layer.phase + t * layer.speed * Math.PI * 2 * 0.2) +
+    amp * 0.4 * Math.sin((x / (layer.wavelength * 0.53)) * Math.PI * 2 - t * layer.speed * 1.7)
+  );
+};
 
 /**
  * The waterline itself: three translucent wave layers and sun glints
@@ -47,12 +53,15 @@ export const createWaterSurface = (
 
   return createEngine(canvas, opts, ({ ctx, width, height, t, compact }) => {
     const step = compact ? 8 : 5;
+    // Waves swell with scroll velocity, then settle.
+    const swell = 1 + readSeaEnergy() * 0.9;
+    decaySeaEnergy();
 
     LAYERS.forEach((layer) => {
       ctx.beginPath();
-      ctx.moveTo(0, surfaceY(layer, 0, t, height));
+      ctx.moveTo(0, surfaceY(layer, 0, t, height, swell));
       for (let x = step; x <= width + step; x += step) {
-        ctx.lineTo(x, surfaceY(layer, x, t, height));
+        ctx.lineTo(x, surfaceY(layer, x, t, height, swell));
       }
       ctx.lineTo(width, height);
       ctx.lineTo(0, height);
@@ -66,7 +75,7 @@ export const createWaterSurface = (
     for (let i = 0; i < visibleGlints; i++) {
       const g = glints[i];
       const x = ((g.x * width + t * g.drift) % (width + 20)) - 10;
-      const y = surfaceY(top, x, t, height) - 1.5;
+      const y = surfaceY(top, x, t, height, swell) - 1.5;
       const twinkle = 0.5 + 0.5 * Math.sin(g.twinklePhase + t * g.twinkleSpeed * Math.PI);
       const alpha = 0.25 + twinkle * 0.55;
       ctx.beginPath();

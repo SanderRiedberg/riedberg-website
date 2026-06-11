@@ -16,7 +16,7 @@ const EXCERPTS = [
     code: (src: string) => sliceAround(src, 'export const pickThought', 28),
     source: 'engine',
     comment:
-      'This function chooses what I think. Note the injected random — my spontaneity is deterministic under test. He works in medical devices; everything here has an audit trail, including whimsy.',
+      'This function chooses what I think. Note the injected random - my spontaneity is deterministic under test. He works in medical devices; everything here has an audit trail, including whimsy.',
   },
   {
     title: 'voice/thoughts.ts',

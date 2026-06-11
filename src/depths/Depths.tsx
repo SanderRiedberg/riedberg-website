@@ -65,7 +65,7 @@ const Depths: React.FC<DepthsProps> = ({ onSurface, memory, noteSeen, sensors })
         <p className="mt-6 max-w-xl font-serif text-lg leading-relaxed text-moon/85">
           Up there I behave: I present my owner the way one presents a
           colleague, with keylines and restraint. Down here is where I
-          keep the rest — what I think, what I know, how I was made, and
+          keep the rest - what I think, what I know, how I was made, and
           what he is actually like. Stay as long as you want. The
           pressure is fine once you stop fighting it.
         </p>

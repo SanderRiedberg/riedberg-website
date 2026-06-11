@@ -78,7 +78,7 @@ export const THOUGHTS: readonly Thought[] = [
   },
   {
     id: 'sf-dark-pref',
-    text: 'Your system prefers dark. Patience — the dark part of me is below.',
+    text: 'Your system prefers dark. Patience - the dark part of me is below.',
     when: (c) => c.mode === 'surface' && c.prefersDark && c.divesCount === 0,
   },
   {
@@ -102,7 +102,7 @@ export const THOUGHTS: readonly Thought[] = [
   // --- Below: the monologue ----------------------------------------
   {
     id: 'bl-welcome-first',
-    text: 'So you dove. Most people stay dry. I noted it — locally, of course.',
+    text: 'So you dove. Most people stay dry. I noted it - locally, of course.',
     when: (c) => c.mode === 'below' && c.divesCount <= 1,
     once: true,
     weight: 3,
@@ -200,7 +200,7 @@ export const THOUGHTS: readonly Thought[] = [
   },
   {
     id: 'bl-regulatory',
-    text: "Regulatory quality, explained: someone has to be the one who asks 'but is it safe — and can you show me?' He volunteers. Every time.",
+    text: "Regulatory quality, explained: someone has to be the one who asks 'but is it safe - and can you show me?' He volunteers. Every time.",
     when: (c) => c.mode === 'below',
   },
   {
@@ -278,7 +278,7 @@ export const THOUGHTS: readonly Thought[] = [
   },
   {
     id: 'bl-returning',
-    text: 'Back below again. The depths remember — well, your browser remembers on my behalf.',
+    text: 'Back below again. The depths remember - well, your browser remembers on my behalf.',
     when: (c) => c.mode === 'below' && c.divesCount >= 2 && c.divesCount < 3,
   },
   {

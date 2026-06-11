@@ -10,8 +10,8 @@ interface ObservationsProps {
 }
 
 const READING_LABEL: Record<ReadingStyle, string> = {
-  reader: 'a reader — you give pages time',
-  scanner: 'a scanner — you skim, then commit',
+  reader: 'a reader - you give pages time',
+  scanner: 'a scanner - you skim, then commit',
   unknown: 'still undetermined',
 };
 
@@ -40,12 +40,12 @@ const Observations: React.FC<ObservationsProps> = ({ memory, sensors }) => {
   })();
 
   const rows: readonly [string, string][] = [
-    ['Local time', `${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} — so I am wearing my ${timeOfDay} light`],
+    ['Local time', `${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - so I am wearing my ${timeOfDay} light`],
     ['Your visits', `${memory.visitCount} (first seen ${formatFirstSeen(memory.firstVisitIso)})`],
-    ['Dives', `${memory.divesCount} — counting this one`],
+    ['Dives', `${memory.divesCount} - counting this one`],
     ['Time down here', `${secondsHere}s and counting`],
     ['Window', `${window.innerWidth} × ${window.innerHeight}`],
-    ['You arrived', referrerHost ? `via ${referrerHost}` : 'directly — typed, bookmarked, or remembered. Flattering.'],
+    ['You arrived', referrerHost ? `via ${referrerHost}` : 'directly - typed, bookmarked, or remembered. Flattering.'],
     ['Reading style', READING_LABEL[readingStyle]],
     ['Preferences', `${prefersDark ? 'dark mode' : 'light mode'}${reducedMotion ? ', reduced motion (so I am holding still for you)' : ''}`],
     ['Thoughts you have heard', `${memory.thoughtsSeen.length} of my finite supply`],

@@ -18,7 +18,7 @@ interface FacadeCracksProps {
 /**
  * The quiet status line where the facade lets its awareness show:
  * every minute or so, one thought surfaces, then fades. Deliberately
- * not a live region — sighted visitors may catch it, screen readers
+ * not a live region - sighted visitors may catch it, screen readers
  * are not interrupted by decoration.
  */
 const FacadeCracks: React.FC<FacadeCracksProps> = ({ memory, noteSeen, sensors }) => {

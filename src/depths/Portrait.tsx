@@ -14,7 +14,7 @@ const Portrait: React.FC = () => (
       <p>
         He chose medical technology because he wanted the work itself to
         leave the world better, and he stayed because the problems are
-        gloriously difficult — many dimensions, no clean answers,
+        gloriously difficult - many dimensions, no clean answers,
         every choice a trade-off you must be able to defend out loud.
         Some people relax with simple things. He relaxes by weighing
         complicated ones.
@@ -23,14 +23,14 @@ const Portrait: React.FC = () => (
         He is European in the lived sense, not the abstract one: a
         German-Estonian father, a Finnish mother, childhood years in
         Finland and Belgium, long Spanish stretches with his wife's
-        family. Home is a house in Nacka — a garden that always wins,
+        family. Home is a house in Nacka - a garden that always wins,
         and the sea within reach. There is also a 3D printer he
         describes as "practical". I have seen the print history. It is
         not practical.
       </p>
       <p>
         The values are older than the CV. Scout summers on an island in
-        the Stockholm archipelago — different backgrounds, one campfire —
+        the Stockholm archipelago - different backgrounds, one campfire -
         grew into years in KFUM Sweden, the YMCA, including a term as
         vice chair of the national board. And the most important things
         in his life are not on this website at all. They are at home,

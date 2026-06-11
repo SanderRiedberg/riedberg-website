@@ -106,7 +106,7 @@ const Hero: React.FC = () => {
 
       <div className="relative z-10 flex items-baseline justify-between px-6 pt-6 font-mono text-[11px] uppercase tracking-[0.22em] md:px-10 anim-rise" style={{ color: 'var(--hero-sub)' }}>
         <span>riedberg.se</span>
-        <span className="hidden sm:inline">59.31° N · 18.16° E — Nacka, Sweden</span>
+        <span className="hidden sm:inline">59.31° N · 18.16° E - Nacka, Sweden</span>
         <span className="sm:hidden">59.31° N · 18.16° E</span>
       </div>
 
