@@ -71,7 +71,7 @@ const Depths: React.FC<DepthsProps> = ({ onSurface, memory, noteSeen, sensors })
           pressure is fine once you stop fighting it.
         </p>
 
-        <DepthSection label="The monologue" depth="−5 m">
+        <DepthSection label="The monologue" depthM={-5} depthFromM={0}>
           <Monologue memory={memory} noteSeen={noteSeen} sensors={sensors} />
         </DepthSection>
 

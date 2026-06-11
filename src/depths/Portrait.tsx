@@ -3,7 +3,7 @@ import DepthSection from './DepthSection';
 
 /** The site's own, unvarnished account of its owner. */
 const Portrait: React.FC = () => (
-  <DepthSection label="The owner, unvarnished" depth="−15 m">
+  <DepthSection label="The owner, unvarnished" depthM={-15} depthFromM={-5}>
     <div className="max-w-xl space-y-5 font-serif text-lg leading-relaxed text-moon/90">
       <p>
         He made me presentable. Up there: clean keylines, considered

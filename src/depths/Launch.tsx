@@ -11,7 +11,7 @@ const LOG: readonly { stamp: string; line: string }[] = [
 
 /** The genesis story, told by the artifact. */
 const Launch: React.FC = () => (
-  <DepthSection label="How I came to be" depth="−25 m">
+  <DepthSection label="How I came to be" depthM={-25} depthFromM={-15}>
     <div className="max-w-xl space-y-5">
       <p className="font-serif text-lg leading-relaxed text-moon/90">
         Every boat remembers its launch. Mine, for the record:

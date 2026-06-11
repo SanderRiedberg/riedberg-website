@@ -32,7 +32,7 @@ const CountingHouse: React.FC = () => {
   const active = typeof tallies === 'object' ? tallies : null;
 
   return (
-    <DepthSection label="The counting house" depth="−40 m">
+    <DepthSection label="The counting house" depthM={-40} depthFromM={-35}>
       <div className="grid items-center gap-10 md:grid-cols-[1fr_1fr]">
         <ClerkScene visitorsToday={active ? active.visitorsToday : null} />
 

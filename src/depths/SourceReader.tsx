@@ -29,7 +29,7 @@ const EXCERPTS = [
 
 /** The site reads its own source code, with commentary. */
 const SourceReader: React.FC = () => (
-  <DepthSection label="I read my own source" depth="−35 m">
+  <DepthSection label="I read my own source" depthM={-35} depthFromM={-25}>
     <div className="space-y-10">
       {EXCERPTS.map((ex) => (
         <figure key={ex.title}>

@@ -52,7 +52,7 @@ const Observations: React.FC<ObservationsProps> = ({ memory, sensors }) => {
   ];
 
   return (
-    <DepthSection label="What I know about this visit" depth="−45 m">
+    <DepthSection label="What I know about this visit" depthM={-45} depthFromM={-40}>
       <dl className="max-w-xl space-y-3 font-mono text-sm">
         {rows.map(([k, v]) => (
           <div key={k} className="grid grid-cols-[minmax(110px,1fr)_2fr] gap-4 border-b border-moon/10 pb-3">

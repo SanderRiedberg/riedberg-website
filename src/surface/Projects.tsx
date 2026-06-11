@@ -7,7 +7,7 @@ interface ProjectsProps {
 }
 
 const Projects: React.FC<ProjectsProps> = ({ onDive }) => (
-  <Section id="projects" index="03" label="Projects" altitudeM={6}>
+  <Section id="projects" index="03" label="Projects" altitudeM={6} altitudeFromM={13}>
     <div className="divide-y divide-ink/10">
       <Reveal as="article" className="project-row relative grid gap-3 py-8 first:pt-0 md:grid-cols-[1fr_2fr] md:gap-10">
         <div>

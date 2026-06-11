@@ -10,7 +10,7 @@ const CHART_DATA = [
 ] as const;
 
 const About: React.FC = () => (
-  <Section id="who" index="01" label="Who" altitudeM={21}>
+  <Section id="who" index="01" label="Who" altitudeM={21} altitudeFromM={30}>
     <div className="grid gap-12 md:grid-cols-[3fr_2fr]">
       <Reveal className="space-y-6 text-lg leading-relaxed text-granite">
         <p>

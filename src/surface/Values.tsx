@@ -22,7 +22,7 @@ const VALUES = [
 ] as const;
 
 const Values: React.FC = () => (
-  <Section id="values" index="02" label="What I stand for" altitudeM={13}>
+  <Section id="values" index="02" label="What I stand for" altitudeM={13} altitudeFromM={21}>
     <div className="grid gap-x-12 gap-y-12 md:grid-cols-2">
       {VALUES.map((v, i) => (
         <Reveal key={v.title} index={i % 2}>

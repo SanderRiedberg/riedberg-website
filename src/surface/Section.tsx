@@ -8,11 +8,13 @@ interface SectionProps {
   label: string;
   /** Chart-style altitude in metres; the page descends toward sea level. */
   altitudeM: number;
+  /** Relay start: the previous section's resting altitude. */
+  altitudeFromM?: number;
   children: React.ReactNode;
 }
 
 /** Shared editorial shell: a self-drawing keyline, chart annotations, content. */
-const Section: React.FC<SectionProps> = ({ id, index, label, altitudeM, children }) => {
+const Section: React.FC<SectionProps> = ({ id, index, label, altitudeM, altitudeFromM, children }) => {
   const { ref, revealed } = useReveal<HTMLDivElement>();
   return (
     <section id={id} className="mx-auto max-w-5xl px-6 py-16 md:px-10 md:py-24">
@@ -25,7 +27,7 @@ const Section: React.FC<SectionProps> = ({ id, index, label, altitudeM, children
           <span>
             {index} · {label}
           </span>
-          <AltitudeReadout meters={altitudeM} className="tabular-nums" />
+          <AltitudeReadout meters={altitudeM} from={altitudeFromM} className="tabular-nums" />
         </div>
       </div>
       {children}

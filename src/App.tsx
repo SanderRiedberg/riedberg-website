@@ -171,7 +171,7 @@ const App: React.FC = () => {
       )}
 
       {belowActive && (
-        <div className="fixed inset-0 z-40 overflow-y-auto bg-abyss">
+        <div data-depths-scroller className="fixed inset-0 z-40 overflow-y-auto bg-abyss">
           <Suspense fallback={<div className="min-h-full bg-abyss" />}>
             <Depths
               onSurface={goSurface}
