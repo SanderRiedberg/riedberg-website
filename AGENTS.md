@@ -89,3 +89,5 @@ npm test && npm run build
 git add -A && git commit -m "feat: ny tanke i tankebanken"
 git push   # ~60 sek senare live
 ```
+
+- **Räknegubben** → `src/depths/CountingHouse.tsx` + `ClerkScene.tsx` + `Odometer.tsx`. Data: `src/lib/umamiShare.ts` - sätt `SHARE_ID` (från Umamis share-URL) för att aktivera; tom sträng = off duty-läge. Read-only via publik share-token, CORS redan öppet i Umami.

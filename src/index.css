@@ -204,6 +204,72 @@ body {
   transform: scaleY(1);
 }
 
+/* The counting house: crank, LEDs, data pulses and bubbles. */
+@keyframes crank-wheel {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.anim-crank-wheel {
+  animation: crank-wheel 3.8s linear infinite;
+}
+
+@keyframes crank-arm {
+  0%, 100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(7deg);
+  }
+}
+.anim-crank-arm {
+  animation: crank-arm 1.9s ease-in-out infinite;
+}
+
+@keyframes led-blink {
+  0%, 72%, 100% {
+    opacity: 1;
+  }
+  76%, 92% {
+    opacity: 0.15;
+  }
+}
+.anim-led {
+  animation: led-blink 2.3s steps(1) infinite;
+}
+
+@keyframes dataflow {
+  from {
+    stroke-dashoffset: 48;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.anim-dataflow {
+  animation: dataflow 2.4s linear infinite;
+}
+
+@keyframes bubble-rise {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-44px);
+    opacity: 0;
+  }
+}
+.anim-bubble {
+  animation: bubble-rise 4.6s ease-in infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

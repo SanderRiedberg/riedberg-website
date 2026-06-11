@@ -9,6 +9,7 @@ import Monologue from './Monologue';
 import Portrait from './Portrait';
 import Launch from './Launch';
 import SourceReader from './SourceReader';
+import CountingHouse from './CountingHouse';
 import Observations from './Observations';
 
 interface DepthsProps {
@@ -77,6 +78,7 @@ const Depths: React.FC<DepthsProps> = ({ onSurface, memory, noteSeen, sensors })
         <Portrait />
         <Launch />
         <SourceReader />
+        <CountingHouse />
         <Observations memory={memory} sensors={sensors} />
 
         <div className="mt-20 border-t border-moon/15 pt-10 pb-6">

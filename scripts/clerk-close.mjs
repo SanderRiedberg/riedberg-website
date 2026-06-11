@@ -1,0 +1,12 @@
+import { chromium } from 'playwright-core';
+import { homedir } from 'node:os';
+const exe = `${homedir()}/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell`;
+const browser = await chromium.launch({ executablePath: exe });
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+await page.goto('http://localhost:4173/#below', { waitUntil: 'networkidle' });
+await page.waitForTimeout(1500);
+const svg = page.locator('svg[viewBox="0 0 320 240"]');
+await svg.scrollIntoViewIfNeeded();
+await page.waitForTimeout(800);
+await svg.screenshot({ path: '/tmp/vattenlinjen-shots/clerk-close.png' });
+await browser.close();

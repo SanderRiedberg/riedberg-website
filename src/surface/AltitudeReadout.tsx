@@ -1,46 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import { useReveal } from '../hooks/useReveal';
+import { subscribeScroll } from '../lib/scrollBus';
+import { clamp } from '../lib/scrollMath';
 import { useReducedMotion } from '../hooks/useMediaPreferences';
 
 interface AltitudeReadoutProps {
-  /** Target altitude in metres; the readout settles here. */
+  /** Resting altitude in metres; the readout settles here. */
   meters: number;
   className?: string;
 }
 
-const TICK_MS = 55;
+/** Extra metres shown while the section is still far below the fold. */
+const APPROACH_RANGE_M = 14;
+/** Viewport fraction where the readout reaches its resting value. */
+const SETTLE_AT = 0.3;
 
 /**
- * An altimeter that settles to its value when scrolled into view -
- * counting down the last several metres, the way the page descends
- * toward sea level. Under reduced motion it simply shows the number.
+ * A live altimeter: the number descends with the scroll, settling at
+ * its resting value once the section header reaches reading height.
+ * The page literally counts down toward sea level as you approach the
+ * waterline. Static under reduced motion.
  */
 const AltitudeReadout: React.FC<AltitudeReadoutProps> = ({ meters, className = '' }) => {
   const reducedMotion = useReducedMotion();
-  const { ref, revealed } = useReveal<HTMLSpanElement>();
-  const [shown, setShown] = useState(reducedMotion ? meters : meters + 8);
+  const [el, setEl] = useState<HTMLSpanElement | null>(null);
+  const [shown, setShown] = useState(meters);
 
   useEffect(() => {
-    if (reducedMotion) {
+    if (reducedMotion || !el) {
       setShown(meters);
       return;
     }
-    if (!revealed) return;
-    let current = meters + 8;
-    setShown(current);
-    const timer = window.setInterval(() => {
-      current -= 1;
-      if (current <= meters) {
-        current = meters;
-        window.clearInterval(timer);
-      }
-      setShown(current);
-    }, TICK_MS);
-    return () => window.clearInterval(timer);
-  }, [revealed, reducedMotion, meters]);
+    return subscribeScroll(() => {
+      const rect = el.getBoundingClientRect();
+      const vh = Math.max(window.innerHeight, 1);
+      // 0 when the header sits at reading height (or above), 1 when it
+      // is still a full viewport away below.
+      const approach = clamp((rect.top - vh * SETTLE_AT) / (vh * (1 - SETTLE_AT)), 0, 1);
+      setShown(meters + Math.round(approach * APPROACH_RANGE_M));
+    });
+  }, [el, reducedMotion, meters]);
 
   return (
-    <span ref={ref} className={className} aria-label={`Altitude ${meters} metres`}>
+    <span ref={setEl} className={className} aria-label={`Altitude ${meters} metres`}>
       alt {shown} m
     </span>
   );
