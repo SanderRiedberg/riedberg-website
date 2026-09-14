@@ -39,6 +39,8 @@ const App: React.FC = () => {
     phaseRef.current = phase;
   }, [phase]);
   const phaseTimer = useRef(0);
+  const diveOrigin = useRef<HTMLElement | null>(null);
+  const restoreSurfaceFocus = useRef(false);
   useEffect(() => () => window.clearTimeout(phaseTimer.current), []);
 
   const sensors: VoiceSensors = useMemo(
@@ -81,16 +83,26 @@ const App: React.FC = () => {
 
   const goBelow = useCallback(() => {
     if (phaseRef.current !== 'surface') return;
+    const active = document.activeElement;
+    diveOrigin.current =
+      active instanceof HTMLElement && active !== document.body
+        ? active
+        : document.querySelector<HTMLElement>('[data-dive-trigger]');
     dive();
-    window.history.pushState(null, '', '#below');
+    window.history.pushState({ riedbergDepth: 'below' }, '', '#below');
     transitionTo('below');
   }, [dive, transitionTo]);
 
   const goSurface = useCallback(() => {
     if (phaseRef.current !== 'below') return;
+    restoreSurfaceFocus.current = true;
     if (window.location.hash === '#below') {
-      window.history.pushState(
-        null,
+      if (window.history.state?.riedbergDepth === 'below') {
+        window.history.back();
+        return;
+      }
+      window.history.replaceState(
+        window.history.state,
         '',
         window.location.pathname + window.location.search,
       );
@@ -106,6 +118,7 @@ const App: React.FC = () => {
       if (wantsBelow && (current === 'surface' || current === 'surfacing')) {
         transitionTo('below');
       } else if (!wantsBelow && (current === 'below' || current === 'diving')) {
+        restoreSurfaceFocus.current = true;
         transitionTo('surface');
       }
     };
@@ -122,6 +135,12 @@ const App: React.FC = () => {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, [phase, goSurface]);
+
+  useEffect(() => {
+    if (phase !== 'surface' || !restoreSurfaceFocus.current) return;
+    restoreSurfaceFocus.current = false;
+    requestAnimationFrame(() => diveOrigin.current?.focus());
+  }, [phase]);
 
   // Insisting on scrolling past the bottom of the page is also a dive.
   useEffect(() => {
@@ -147,6 +166,7 @@ const App: React.FC = () => {
 
   // While below, the surface neither scrolls nor receives focus.
   const belowActive = phase === 'below' || phase === 'surfacing';
+  const surfaceEffectsActive = phase !== 'below';
   useEffect(() => {
     document.body.style.overflow = phase === 'surface' ? '' : 'hidden';
     return () => {
@@ -157,13 +177,17 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-mist">
       <div inert={belowActive ? true : undefined}>
-        <Hero />
+        <Hero effectsActive={surfaceEffectsActive} />
         <main>
           <About />
           <Values />
           <Projects onDive={goBelow} />
         </main>
-        <Waterline onDive={goBelow} reducedMotion={reducedMotion} />
+        <Waterline
+          onDive={goBelow}
+          reducedMotion={reducedMotion}
+          effectsActive={surfaceEffectsActive}
+        />
       </div>
 
       {phase === 'surface' && (

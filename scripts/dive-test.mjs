@@ -1,7 +1,6 @@
 import { chromium } from 'playwright-core';
-import { homedir } from 'node:os';
-const exe = `${homedir()}/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell`;
-const browser = await chromium.launch({ executablePath: exe });
+import { executablePath } from './browser.mjs';
+const browser = await chromium.launch({ executablePath });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 await page.goto('http://localhost:4173/?t=night', { waitUntil: 'networkidle' });
 await page.waitForTimeout(800);
@@ -14,6 +13,7 @@ await page.screenshot({ path: '/tmp/vattenlinjen-shots/depths-skeleton.png' });
 await page.keyboard.press('Escape');
 await page.waitForTimeout(1600);
 console.log('after escape: hash =', await page.evaluate(() => location.hash), '| depths mounted =', await page.evaluate(() => !!document.querySelector('.fixed.inset-0 h1')));
+console.log('focus restored =', await page.evaluate(() => document.activeElement?.textContent?.trim()));
 await page.goBack();
 await page.waitForTimeout(1600);
 console.log('after back: hash =', await page.evaluate(() => location.hash), '| depths mounted =', await page.evaluate(() => !!document.querySelector('.fixed.inset-0 h1')));

@@ -23,10 +23,10 @@ const Section: React.FC<SectionProps> = ({ id, index, label, altitudeM, altitude
           data-revealed={revealed}
           className="keyline-draw absolute left-0 right-0 top-0 h-px bg-ink/20"
         />
-        <div className="flex items-baseline justify-between pt-4 font-mono text-[11px] uppercase tracking-[0.22em] text-granite/60">
-          <span>
+        <div className="flex items-baseline justify-between pt-4 font-mono text-[11px] uppercase tracking-[0.22em] text-granite/80">
+          <h2 className="font-mono text-[11px] font-normal">
             {index} · {label}
-          </span>
+          </h2>
           <AltitudeReadout meters={altitudeM} from={altitudeFromM} className="tabular-nums" />
         </div>
       </div>

@@ -37,6 +37,7 @@ export const createEngine = (
   const ctx = canvas.getContext('2d');
   let rafId = 0;
   let running = false;
+  let requested = false;
   let lastFrame = 0;
   let startTime = performance.now();
   let observer: ResizeObserver | null = null;
@@ -78,7 +79,20 @@ export const createEngine = (
     }
   };
 
+  const halt = () => {
+    running = false;
+    cancelAnimationFrame(rafId);
+  };
+
+  const beginLoop = () => {
+    if (!ctx || running || opts.reduced || document.hidden) return;
+    running = true;
+    startTime = performance.now();
+    rafId = requestAnimationFrame(loop);
+  };
+
   const start = () => {
+    requested = true;
     if (!ctx || running) return;
     size();
     if (opts.reduced) {
@@ -89,22 +103,19 @@ export const createEngine = (
       }
       return;
     }
-    running = true;
-    startTime = performance.now();
-    rafId = requestAnimationFrame(loop);
+    beginLoop();
   };
 
   const stop = () => {
-    running = false;
-    cancelAnimationFrame(rafId);
+    requested = false;
+    halt();
   };
 
   const onVisibility = () => {
     if (document.hidden) {
-      stop();
-    } else if (!opts.reduced) {
-      running = true;
-      rafId = requestAnimationFrame(loop);
+      halt();
+    } else if (requested) {
+      beginLoop();
     }
   };
 

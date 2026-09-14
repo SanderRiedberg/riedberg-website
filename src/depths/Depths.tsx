@@ -44,7 +44,7 @@ const Depths: React.FC<DepthsProps> = ({ onSurface, memory, noteSeen, sensors })
       />
 
       <div className="relative z-10 mx-auto max-w-3xl px-6 py-16 md:px-10 md:py-20">
-        <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-[0.22em] text-moon/50">
+        <div className="flex items-baseline justify-between font-mono text-[11px] uppercase tracking-[0.22em] text-moon/70">
           <span>Below the waterline</span>
           <button
             type="button"
@@ -64,11 +64,10 @@ const Depths: React.FC<DepthsProps> = ({ onSurface, memory, noteSeen, sensors })
           Hello. I am the website.
         </h1>
         <p className="mt-6 max-w-xl font-serif text-lg leading-relaxed text-moon/85">
-          Up there I behave: I present my owner the way one presents a
-          colleague, with keylines and restraint. Down here is where I
-          keep the rest - what I think, what I know, how I was made, and
-          what he is actually like. Stay as long as you want. The
-          pressure is fine once you stop fighting it.
+          Above, I present my owner with appropriate restraint. Down here I
+          keep the footnotes: how I was made, what I notice, and a few things
+          he chose not to put in a professional introduction. Stay as long as
+          you like. The pressure is fine once you stop fighting it.
         </p>
 
         <DepthSection label="The monologue" depthM={-5} depthFromM={0}>
@@ -90,7 +89,7 @@ const Depths: React.FC<DepthsProps> = ({ onSurface, memory, noteSeen, sensors })
             <ArrowUp size={14} aria-hidden="true" />
             Back to the surface
           </button>
-          <p className="mt-6 font-mono text-[11px] leading-relaxed text-moon/40">
+          <p className="mt-6 font-mono text-[11px] leading-relaxed text-moon/70">
             riedberg.se · below deck · everything you just read stays
             between us and your localStorage
           </p>

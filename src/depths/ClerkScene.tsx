@@ -1,10 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { clamp } from '../lib/scrollMath';
 import { useReducedMotion } from '../hooks/useMediaPreferences';
 
 interface ClerkSceneProps {
   /** Today's visitors; drives the gauge needle. Null = off duty. */
   visitorsToday: number | null;
+  wakeSignal?: number;
+  onActivate?: () => void;
 }
 
 const GAUGE_MAX = 30;
@@ -18,12 +20,21 @@ const BRASS = '#e0a458';
  * brass accent - in three depth layers that lean with the pointer.
  * Reduced motion stills the quill, the gears and the parallax alike.
  */
-const ClerkScene: React.FC<ClerkSceneProps> = ({ visitorsToday }) => {
+const ClerkScene: React.FC<ClerkSceneProps> = ({ visitorsToday, wakeSignal = 0, onActivate }) => {
   const reducedMotion = useReducedMotion();
-  const wrapRef = useRef<HTMLDivElement>(null);
+  const wrapRef = useRef<HTMLButtonElement>(null);
+  const [working, setWorking] = useState(false);
 
   const fraction = visitorsToday === null ? 0 : clamp(visitorsToday / GAUGE_MAX, 0, 1);
   const needleAngle = -80 + fraction * 160;
+
+  // The machine wakes briefly when a fresh tally arrives, then rests.
+  useEffect(() => {
+    if (visitorsToday === null || reducedMotion) return;
+    setWorking(true);
+    const timer = window.setTimeout(() => setWorking(false), 3200);
+    return () => window.clearTimeout(timer);
+  }, [visitorsToday, wakeSignal, reducedMotion]);
 
   // 2.5D: the layers lean a few px toward the pointer.
   useEffect(() => {
@@ -64,7 +75,13 @@ const ClerkScene: React.FC<ClerkSceneProps> = ({ visitorsToday }) => {
   });
 
   return (
-    <div ref={wrapRef}>
+    <button
+      ref={wrapRef}
+      type="button"
+      onClick={onActivate}
+      aria-label="Ask the counting-house clerk"
+      className={`${working ? 'clerk-working ' : ''}group block w-full cursor-help rounded-xl border-0 bg-transparent p-0 text-left outline-none focus-visible:ring-2 focus-visible:ring-biolume/80 focus-visible:ring-offset-4 focus-visible:ring-offset-abyss`}
+    >
       <svg
         viewBox="0 0 480 320"
         className="w-full max-w-[460px]"
@@ -227,7 +244,7 @@ const ClerkScene: React.FC<ClerkSceneProps> = ({ visitorsToday }) => {
           <path d="M 306 192 l 8 -1 l -1 6 l -6 1 Z" fill="url(#hatchX)" strokeWidth="1.2" />
         </g>
       </svg>
-    </div>
+    </button>
   );
 };
 

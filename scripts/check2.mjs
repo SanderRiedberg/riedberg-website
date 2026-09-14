@@ -1,7 +1,6 @@
 import { chromium } from 'playwright-core';
-import { homedir } from 'node:os';
-const exe = `${homedir()}/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell`;
-const browser = await chromium.launch({ executablePath: exe });
+import { executablePath } from './browser.mjs';
+const browser = await chromium.launch({ executablePath });
 // mobile hero
 const mob = await browser.newContext({ viewport: { width: 390, height: 844 } });
 const p2 = await mob.newPage();

@@ -56,22 +56,17 @@ const Observations: React.FC<ObservationsProps> = ({ memory, sensors }) => {
       <dl className="max-w-xl space-y-3 font-mono text-sm">
         {rows.map(([k, v]) => (
           <div key={k} className="grid grid-cols-[minmax(110px,1fr)_2fr] gap-4 border-b border-moon/10 pb-3">
-            <dt className="text-[11px] uppercase tracking-[0.18em] text-moon/50">{k}</dt>
+            <dt className="text-[11px] uppercase tracking-[0.18em] text-moon/70">{k}</dt>
             <dd className="text-moon/85">{v}</dd>
           </div>
         ))}
       </dl>
       <p className="mt-8 max-w-xl font-serif text-lg leading-relaxed text-moon/90">
-        And that is nearly all of it. Two honest disclosures. First: my
-        memory of you - visits, dives, which of my thoughts you have
-        heard - lives in your own localStorage. Open your devtools and
-        delete it freely; I will simply reintroduce myself next time,
-        none the wiser. Second: your visit is counted. Not by an ad
-        network - by a small counting house on his own server, in his
-        own house. Self-hosted, cookie-free, anonymous; it tallies
-        visits, not people, and it cannot follow you anywhere. He
-        simply wanted to know whether anyone comes here. I told him I
-        do not blame him.
+        That is nearly all of it. My memory of your visits, dives and the
+        thoughts you have heard stays in your browser. Delete it and I will
+        simply introduce myself again. Your visit is also tallied anonymously
+        by a cookie-free counter on his own server. It counts visits, not
+        people, and cannot follow you elsewhere.
       </p>
     </DepthSection>
   );

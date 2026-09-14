@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Mail, Phone, PenTool, Linkedin } from 'lucide-react';
+import { Github, Linkedin, Mail, PenTool, Phone } from 'lucide-react';
 import SeaCanvas from '../sea/SeaCanvas';
 import { createHeroField } from '../sea/heroField';
 import { useParallax } from '../hooks/useParallax';
@@ -18,6 +18,7 @@ const CONTACTS = [
   { label: PHONE_DISPLAY, href: PHONE_HREF, icon: Phone, external: false },
   { label: 'blog.riedberg.se', href: 'https://blog.riedberg.se', icon: PenTool, external: true },
   { label: 'linkedin', href: 'https://www.linkedin.com/in/sander-riedberg/', icon: Linkedin, external: true },
+  { label: 'github', href: 'https://github.com/SanderRiedberg', icon: Github, external: true },
 ] as const;
 
 /**
@@ -26,7 +27,7 @@ const CONTACTS = [
  * masses, tinted by the hour. The grid drifts gently with scroll; a
  * soft glow follows the pointer.
  */
-const Hero: React.FC = () => {
+const Hero: React.FC<{ effectsActive?: boolean }> = ({ effectsActive = true }) => {
   const reducedMotion = useReducedMotion();
   const headerRef = useRef<HTMLElement>(null);
   const gridRef = useParallax<HTMLDivElement>(0.06);
@@ -73,12 +74,12 @@ const Hero: React.FC = () => {
       <div
         ref={gridRef}
         aria-hidden="true"
-        className="absolute inset-0 opacity-[0.06]"
+        className="absolute inset-0 opacity-[0.035]"
         style={{
           transform: 'translate3d(0, var(--parallax, 0), 0)',
           backgroundImage:
             'linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)',
-          backgroundSize: '128px 128px',
+          backgroundSize: '160px 160px',
         }}
       />
 
@@ -86,6 +87,7 @@ const Hero: React.FC = () => {
       <SeaCanvas
         factory={createHeroField}
         reduced={reducedMotion}
+        active={effectsActive}
         className="absolute inset-0 h-full w-full [color:var(--hero-ink)]"
       />
 
@@ -125,13 +127,18 @@ const Hero: React.FC = () => {
           className="anim-rise group mx-auto w-full max-w-[360px] overflow-hidden rounded-2xl border shadow-[0_12px_40px_rgba(15,25,32,0.18)] md:mx-0 md:ml-auto"
           style={{ animationDelay: '0.55s', borderColor: 'color-mix(in srgb, currentColor 16%, transparent)' }}
         >
-          <img
-            src="/og-1200x630.jpg"
-            alt="Sander Riedberg"
-            width={1200}
-            height={628}
-            className="aspect-[4/5] w-full object-cover object-[30%_18%] transition-transform duration-[1.4s] ease-out group-hover:scale-[1.04]"
-          />
+          <picture>
+            <source srcSet="/portrait-480x600.avif" type="image/avif" />
+            <img
+              src="/og-1200x630.jpg"
+              alt="Sander Riedberg"
+              width={480}
+              height={600}
+              fetchPriority="high"
+              decoding="async"
+              className="aspect-[4/5] w-full object-cover object-[30%_18%] transition-transform duration-[1.4s] ease-out group-hover:scale-[1.04]"
+            />
+          </picture>
         </figure>
       </div>
 

@@ -215,6 +215,7 @@ body {
 }
 .anim-crank-wheel {
   animation: crank-wheel 3.8s linear infinite;
+  animation-play-state: paused;
 }
 
 @keyframes crank-arm {
@@ -239,6 +240,7 @@ body {
 }
 .anim-led {
   animation: led-blink 2.3s steps(1) infinite;
+  animation-play-state: paused;
 }
 
 @keyframes gear-ccw {
@@ -251,6 +253,7 @@ body {
 }
 .anim-gear-ccw {
   animation: gear-ccw 4.2s linear infinite;
+  animation-play-state: paused;
 }
 
 @keyframes quill-write {
@@ -266,6 +269,7 @@ body {
 }
 .anim-quill {
   animation: quill-write 1.1s ease-in-out infinite;
+  animation-play-state: paused;
 }
 
 @keyframes dataflow {
@@ -278,6 +282,7 @@ body {
 }
 .anim-dataflow {
   animation: dataflow 2.4s linear infinite;
+  animation-play-state: paused;
 }
 
 @keyframes bubble-rise {
@@ -295,6 +300,69 @@ body {
 }
 .anim-bubble {
   animation: bubble-rise 4.6s ease-in infinite;
+  animation-play-state: paused;
+}
+
+.clerk-working .anim-crank-wheel,
+.clerk-working .anim-led,
+.clerk-working .anim-gear-ccw,
+.clerk-working .anim-quill,
+.clerk-working .anim-dataflow,
+.clerk-working .anim-bubble {
+  animation-play-state: running;
+}
+
+@keyframes clerk-bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.clerk-bubble {
+  animation: clerk-bubble-in 180ms ease-out both;
+}
+
+/* A small reward for disturbing the waterline. */
+@keyframes fish-jump {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 18px) rotate(-24deg);
+  }
+  16% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -58px) rotate(4deg);
+  }
+  84% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 16px) rotate(30deg);
+  }
+}
+.fish-jump {
+  animation: fish-jump 1.25s cubic-bezier(0.32, 0.05, 0.35, 1) both;
+}
+
+@keyframes fish-ripple {
+  0%, 58% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.25);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(1.8);
+  }
+}
+.fish-ripple {
+  animation: fish-ripple 1.25s ease-out both;
 }
 
 @media (prefers-reduced-motion: reduce) {

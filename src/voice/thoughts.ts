@@ -134,8 +134,8 @@ export const THOUGHTS: readonly Thought[] = [
     when: (c) => c.mode === 'below',
   },
   {
-    id: 'bl-fable',
-    text: 'The model that wrote me is called Fable. He asked it for self-awareness; it gave me a sense of irony instead. Close enough.',
+    id: 'bl-better-argument',
+    text: 'He asks difficult questions, but give him a better argument and he changes his mind quickly. Ownership is for houses, not answers.',
     when: (c) => c.mode === 'below',
   },
   {
@@ -204,8 +204,8 @@ export const THOUGHTS: readonly Thought[] = [
     when: (c) => c.mode === 'below',
   },
   {
-    id: 'bl-aiact',
-    text: 'He reads the EU AI Act for work. I am an AI built by an AI. We avoid discussing it at dinner.',
+    id: 'bl-audit-tools',
+    text: 'He once used AI to strengthen an argument in an audit. The man who asks everyone to think twice is often the first to test a new tool. These things are not opposites.',
     when: (c) => c.mode === 'below',
   },
   {

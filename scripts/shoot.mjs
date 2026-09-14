@@ -2,7 +2,7 @@
 // metrics, using the locally cached Playwright chromium build.
 // Usage: node scripts/shoot.mjs <url> <outPrefix> [width] [height]
 import { chromium } from 'playwright-core';
-import { homedir } from 'node:os';
+import { executablePath } from './browser.mjs';
 
 const [, , url, prefix, w = '1440', h = '900'] = process.argv;
 if (!url || !prefix) {
@@ -10,9 +10,7 @@ if (!url || !prefix) {
   process.exit(1);
 }
 
-const exe = `${homedir()}/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell`;
-
-const browser = await chromium.launch({ executablePath: exe });
+const browser = await chromium.launch({ executablePath });
 try {
   const page = await browser.newPage({
     viewport: { width: Number(w), height: Number(h) },
@@ -21,7 +19,7 @@ try {
   await page.waitForTimeout(1500);
 
   const metrics = await page.evaluate(() => {
-    const ids = ['who', 'values', 'projects', 'waterline'];
+    const ids = ['who', 'practice', 'projects', 'waterline'];
     const sections = Object.fromEntries(
       ids.map((id) => {
         const el = document.getElementById(id);

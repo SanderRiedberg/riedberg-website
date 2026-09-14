@@ -17,6 +17,7 @@ Spec och plan: [`docs/superpowers/`](./docs/superpowers/).
 npm install
 npm run dev       # dev-server på localhost:5173
 npm test          # vitest - röstmotor, minne, tidstema
+npm run typecheck # TypeScript utan output
 npm run build     # bygger till dist/
 npm run preview   # serverar dist/ lokalt för verifiering
 ```
@@ -28,7 +29,7 @@ Dolda utvecklarparametrar: `?t=dawn|day|golden|night` låser tidsljuset,
 
 | Plats | Vad |
 |---|---|
-| `src/surface/` | Fasaden: Hero, About, Values, Projects, Waterline, FacadeCracks, DiveTransition |
+| `src/surface/` | Fasaden: Hero, About, In practice, Projects, Waterline, FacadeCracks, DiveTransition |
 | `src/depths/` | Medvetandet: Monologue, Portrait, Launch, SourceReader, Observations |
 | `src/voice/` | Röstmotorn: tankebank (`thoughts.ts`), urvalslogik (`engine.ts`), kontext |
 | `src/sea/` | Canvasmotorer: vattenyta, djupbakgrund, delat chassi |
@@ -36,7 +37,7 @@ Dolda utvecklarparametrar: `?t=dawn|day|golden|night` låser tidsljuset,
 | `src/state/` | `visitMemory.ts` - versionerat localStorage-minne, validerat vid läsning |
 | `src/theme/` | Klocka → tidstema |
 | `tests/` | Vitest-enhetstester för all ren logik |
-| `scripts/` | Verifieringsharness (Playwright-skärmdumpar via cachad chromium) |
+| `scripts/` | Verifieringsharness (Playwright; sätt `CHROME_PATH` om Chromium inte hittas automatiskt) |
 | `public/` | Statiska filer: CNAME, favicon, OG-bild, robots, sitemap |
 | `.github/workflows/deploy.yml` | Auto-build + deploy till Pages |
 
@@ -48,19 +49,6 @@ Inget manuellt steg. ~60 sek från push till live.
 GitHub Pages source är konfigurerad som **GitHub Actions**
 (Settings → Pages). Inte "Deploy from a branch".
 
-## Custom domain
-
-Driven av `public/CNAME` som Vite kopierar oförändrad till
-`dist/CNAME`. DNS hanteras på Loopia:
-
-- `www` CNAME → `sanderriedberg.github.io.`
-- Apex `@` A-records → `185.199.108-111.153` (Pages-IPs, ger
-  redirect `riedberg.se` → `https://www.riedberg.se`)
-
-## Övriga subdomäner (utanför detta repo)
-
-- `gatlykta.riedberg.se` → eget repo `gatlykta` på GitHub Pages
-- `books`, `home`, `blog`, `ai`, `vpn` → CNAME mot
-  `riedberg.duckdns.org.` (Ubuntu-server hemma)
+Custom domain följer med bygget via `public/CNAME`.
 
 Se [`AGENTS.md`](./AGENTS.md) för agent-specifika instruktioner.

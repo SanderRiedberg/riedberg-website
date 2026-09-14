@@ -5,8 +5,8 @@ import Reveal from './Reveal';
 const CHART_DATA = [
   ['Base', 'Nacka, Stockholm'],
   ['In medtech since', '2016'],
-  ['Frameworks', 'ISO 13485 · PRRC · EU MDR · EU AI Act'],
-  ['Roots', 'Finland · Belgium · Spain'],
+  ['Focus', 'Regulatory strategy · Quality · Product development'],
+  ['Background', 'Finland · Belgium · Sweden'],
 ] as const;
 
 const About: React.FC = () => (
@@ -14,26 +14,28 @@ const About: React.FC = () => (
     <div className="grid gap-12 md:grid-cols-[3fr_2fr]">
       <Reveal className="space-y-6 text-lg leading-relaxed text-granite">
         <p>
-          I have spent my working life where medical technology meets the
-          rules that keep it honest: regulatory strategy, quality systems,
-          ISO 13485, PRRC duties, and lately the EU AI Act. The work I
-          love has many dimensions and no given answer - you weigh safety
-          against speed, evidence against ambition, and you get to be
-          precise about all of it.
+          I work where product development meets regulatory strategy. By
+          getting involved early, I help teams clarify what they are
+          building, establish a sound regulatory foundation and make
+          informed trade-offs before they become costly.
         </p>
         <p>
-          I grew up European: a German-Estonian father, a Finnish mother,
-          childhood years in Finland and Belgium, and a second home in
-          Spain through my wife's family. These days I live in a house in
-          Nacka, just east of Stockholm, where the garden never stops
-          asking for attention and the sea is never far.
+          I tend to ask: What are we actually building - and where is it
+          going? I care more about reaching a sound answer than defending
+          my first one.
+        </p>
+        <p>
+          Curious by disposition, I can happily lose track of time exploring
+          technology, books, cars and whatever subject has caught my
+          attention. I appreciate things that are thoughtfully made and
+          properly finished - not necessarily perfect.
         </p>
       </Reveal>
       <Reveal index={1} className="h-fit">
         <dl className="space-y-4 border-l border-ink/15 pl-6 font-mono text-xs leading-relaxed">
           {CHART_DATA.map(([k, v]) => (
             <div key={k}>
-              <dt className="uppercase tracking-[0.18em] text-granite/55">{k}</dt>
+              <dt className="uppercase tracking-[0.18em] text-granite/80">{k}</dt>
               <dd className="mt-1 text-ink">{v}</dd>
             </div>
           ))}

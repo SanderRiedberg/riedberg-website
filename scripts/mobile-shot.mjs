@@ -1,12 +1,11 @@
 import { chromium } from 'playwright-core';
-import { homedir } from 'node:os';
-const exe = `${homedir()}/Library/Caches/ms-playwright/chromium_headless_shell-1223/chrome-headless-shell-mac-arm64/chrome-headless-shell`;
-const browser = await chromium.launch({ executablePath: exe });
+import { executablePath } from './browser.mjs';
+const browser = await chromium.launch({ executablePath });
 const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
 await page.goto('http://localhost:4173/?t=day', { waitUntil: 'networkidle' });
 await page.waitForTimeout(1200);
 await page.screenshot({ path: '/tmp/vattenlinjen-shots/m-hero.png' });
-await page.evaluate(() => window.scrollTo(0, document.getElementById('values').offsetTop));
+await page.evaluate(() => window.scrollTo(0, document.getElementById('practice').offsetTop));
 await page.waitForTimeout(300);
 await page.screenshot({ path: '/tmp/vattenlinjen-shots/m-values.png' });
 await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));

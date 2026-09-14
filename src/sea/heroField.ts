@@ -6,6 +6,42 @@ const NODE_COUNT = 9;
 const CLOUD_COUNT = 4;
 const COLOR_REFRESH_FRAMES = 90;
 
+const drawBathymetry = (
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  t: number,
+  compact: boolean,
+  rgb: readonly [number, number, number],
+) => {
+  const rings = compact ? 4 : 7;
+  const maxRx = Math.min(width * 0.44, 540);
+  const maxRy = Math.min(height * 0.42, 350);
+  const cx = width * 0.72;
+  const cy = height * 0.56;
+  const [r, g, b] = rgb;
+
+  ctx.lineWidth = 0.75;
+  for (let ring = 1; ring <= rings; ring += 1) {
+    const scale = ring / rings;
+    ctx.beginPath();
+    for (let point = 0; point <= 80; point += 1) {
+      const angle = (point / 80) * Math.PI * 2;
+      const wobble =
+        1 +
+        Math.sin(angle * 3 + ring * 0.8) * 0.035 +
+        Math.sin(angle * 7 - ring * 0.45) * 0.018 +
+        Math.sin(t * 0.035 + ring) * 0.008;
+      const x = cx + Math.cos(angle) * maxRx * scale * wobble;
+      const y = cy + Math.sin(angle) * maxRy * scale * wobble;
+      if (point === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, ${compact ? 0.035 : 0.045})`;
+    ctx.stroke();
+  }
+};
+
 interface Mote {
   x: number;
   y: number;
@@ -32,7 +68,7 @@ const parseColor = (css: string): [number, number, number] => {
 
 /**
  * The hero's ambient field: slow-drifting motes, a few brighter pulsing
- * nodes, and large ultra-faint cloud masses. Drawn in the hero's
+ * nodes, large ultra-faint cloud masses and chart-like depth contours. Drawn in the hero's
  * currentColor, so it follows the time-of-day ink automatically -
  * dark particles on the day sky, pale ones at night.
  */
@@ -75,6 +111,9 @@ export const createHeroField = (
     }
     frame += 1;
     const [r, g, b] = rgb;
+
+    // A quiet topographic echo of the world below the waterline.
+    drawBathymetry(ctx, width, height, t, compact, rgb);
 
     // Cloud masses: edgeless, barely-there depth.
     clouds.forEach((c) => {

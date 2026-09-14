@@ -54,30 +54,18 @@ node scripts/shoot.mjs "http://localhost:4173/?t=day" /tmp/shot   # skärmdump +
 node scripts/dive-test.mjs                                        # dyk/escape/back-flöde
 ```
 
-Skärmdumpsskripten använder den lokalt cachade Playwright-chromium
-(`~/Library/Caches/ms-playwright/chromium_headless_shell-1223`).
+Skärmdumpsskripten hittar Chromium på macOS och Ubuntu. Sätt
+`CHROME_PATH` om webbläsaren ligger någon annanstans.
 Dolda dev-parametrar: `?t=dawn|day|golden|night` låser tidstemat,
 `?y=<px>` skrollar efter mount.
 
 Snabbcheck efter push: `gh run watch` eller Actions-fliken.
 
-## DNS-läge (status quo, ändra bara om det krävs)
+## Infrastruktur
 
-| Record | Värde |
-|---|---|
-| `www.riedberg.se` CNAME | `sanderriedberg.github.io.` |
-| `riedberg.se` apex A × 4 | `185.199.108-111.153` |
-| `_dmarc` TXT | `v=DMARC1; p=none; rua=mailto:sander@riedberg.se` |
-| `sig1._domainkey` CNAME | iCloud-mail DKIM |
-| Övriga subdomäner | CNAME mot `riedberg.duckdns.org.` (hemma-server) |
-
-DNS-leverantör: Loopia. Mail: iCloud Custom Domain.
-
-## Var bor det andra?
-
-- `gatlykta.riedberg.se` - annat repo (`SanderRiedberg/gatlykta`).
-- Hemma-server (Ubuntu, `ssh ubuntu-server`) hostar `books`, `home`,
-  `blog`, `ai`, `vpn` via Nginx Proxy Manager.
+Ändra inte DNS, mail eller andra tjänster från det här repot. Custom
+domain följer med bygget via `public/CNAME`; övrig driftinformation
+hålls utanför det publika repot.
 
 ## Workflow för en uppdatering
 

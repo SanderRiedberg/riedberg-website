@@ -88,7 +88,7 @@ const Monologue: React.FC<MonologueProps> = ({ memory, noteSeen, sensors }) => {
         const age = entries.length - 1 - i;
         return (
           <p key={e.id} style={{ opacity: 1 - age * 0.13 }}>
-            <span className="mr-3 text-moon/40">{e.stamp}</span>
+            <span className="mr-3 text-moon/70">{e.stamp}</span>
             <span className="text-biolume/90">{text}</span>
             {isNewest && !newestDone && (
               <span className="anim-caret text-biolume">▍</span>

@@ -8,7 +8,7 @@ export default {
       colors: {
         mist:     '#ECF1F4',
         horizon:  '#C9D8DE',
-        seaglass: '#6FA29A',
+        seaglass: '#3F766F',
         granite:  '#4A555E',
         ink:      '#1F262B',
         sun:      '#E0A458',
