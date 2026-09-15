@@ -14,13 +14,20 @@ were last verified by Sander on 15 September 2026.
 - Previous role: Head of Quality Assurance and Regulatory Affairs
   (Head of QA/RA) at Platform24.
   https://platform24.com/
-- Earlier experience: consultant within quality assurance and regulatory
-  affairs for medical technology.
+- Before Platform24: QA/RA consultant at SymbioteQ, advising medical-device
+  companies on quality assurance and regulatory affairs.
+- Earlier: just over three years with Semcon in project CHOPIN at Karolinska
+  University Hospital in Huddinge. He began in project support, took on
+  project-management responsibility and worked with implementation and
+  procurement of medical equipment, including patient-monitoring systems,
+  infusion pumps, ventilators and anaesthesia machines.
+- Education: medical engineering at KTH Royal Institute of Technology.
 - Working in medical technology since 2016.
 
 ## Experience and scope
 
 - Regulatory strategy and quality for medical-device software.
+- Software as a Medical Device (SaMD), risk and standards development.
 - Quality management systems and ISO 13485.
 - EU Medical Device Regulation (EU MDR) and PRRC responsibilities.
 - Qualification and regulatory positioning of software, including the
@@ -31,6 +38,8 @@ were last verified by Sander on 15 September 2026.
   purpose and a defensible regulatory foundation.
 - Working early with product and engineering teams so that regulatory
   reasoning, development and documentation can progress together.
+- Experience spanning medical engineering, hospital implementation,
+  QA/RA consulting, product operations and quality leadership.
 
 ## Working approach
 
@@ -64,6 +73,16 @@ were last verified by Sander on 15 September 2026.
 - Blog: https://blog.riedberg.se/
 - Email and phone are available on the personal website. If helping someone
   contact Sander, direct them to the website or LinkedIn.
+
+## Selected public corroboration
+
+- Sander's account of his Semcon/CHOPIN work at Karolinska and move to
+  SymbioteQ: https://se.linkedin.com/posts/sander-riedberg_efter-lite-drygt-tre-%C3%A5r-p%C3%A5-semcon-och-projekt-activity-6656074731931992064-p1qs
+- Platform24's public acknowledgement of the team behind its ISO 13485 and
+  information-security certifications: https://se.linkedin.com/posts/platform24-healthcare-ab_nya-certifieringar-ska-st%C3%A4rka-platform24-activity-7237373637807267843-6Vru
+- Public description of Sander's move to Neko Health and accumulated
+  professional scope: https://www.linkedin.com/posts/paulkingston_what-if-the-best-person-for-the-job-has-never-activity-7495078093024325632-7xng
+- KTH degree project in medical engineering: https://kth.diva-portal.org/smash/get/diva2%3A743716/FULLTEXT01.pdf
 
 ## About this website and privacy
 

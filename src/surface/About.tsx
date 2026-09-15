@@ -4,9 +4,9 @@ import Reveal from './Reveal';
 
 const CHART_DATA = [
   ['Base', 'Nacka, Stockholm'],
+  ['Current', 'Regulatory Lead Software · Neko Health'],
+  ['Previously', 'Head of QA/RA · Platform24'],
   ['In medtech since', '2016'],
-  ['Focus', 'Regulatory strategy · Quality · Product development'],
-  ['Background', 'Finland · Belgium · Sweden'],
 ] as const;
 
 const About: React.FC = () => (
